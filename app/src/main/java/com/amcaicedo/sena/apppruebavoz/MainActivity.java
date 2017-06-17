@@ -37,18 +37,29 @@ public class MainActivity extends AppCompatActivity {
         btnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paciente.setNombre(etNombrePaciente.getText().toString());
-                paciente.setApellido(etApellidoPaciente.getText().toString());
-                paciente.setCedula(etCedulaPaciente.getText().toString());
-                paciente.setEdad(Integer.parseInt(etEdadPaciente.getText().toString()));
-                paciente.guardarDatos(paciente);
-                Toast.makeText(MainActivity.this, "Datos guardados correctamente.", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, PruebasActivity.class);
-                intent.putExtra("CEDULA", paciente.getCedula());
-                startActivity(intent);
+                if(validarCampos()) {
+                    paciente.setNombre(etNombrePaciente.getText().toString());
+                    paciente.setApellido(etApellidoPaciente.getText().toString());
+                    paciente.setCedula(etCedulaPaciente.getText().toString());
+                    paciente.setEdad(Integer.parseInt(etEdadPaciente.getText().toString()));
+                    paciente.guardarDatos(paciente);
+                    Toast.makeText(MainActivity.this, "Datos guardados correctamente.", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, PruebasActivity.class);
+                    intent.putExtra("CEDULA", paciente.getCedula());
+                    startActivity(intent);
+                }else
+                    Toast.makeText(MainActivity.this, "No se aceptan campos nulos", Toast.LENGTH_SHORT).show();
             }
         });
 
+    }
+
+    private boolean validarCampos() {
+        if(etNombrePaciente.getText().toString().equals("") || etApellidoPaciente.getText().toString().equals("") || etCedulaPaciente.getText().toString().equals("")
+                || etEdadPaciente.getText().toString().equals(""))
+            return false;
+        else
+            return true;
     }
 
     public void onRadioButtonClicked(View view) {
@@ -65,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.radio_femenino:
                 if (checked)
                     paciente.setGenero(0);
-                    Toast.makeText(this, "Elegiste Femenino", Toast.LENGTH_SHORT).show();
                     break;
         }
     }
