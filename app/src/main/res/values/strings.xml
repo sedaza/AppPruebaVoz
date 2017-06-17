@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">AppPruebaVoz</string>
+    <string name="nombre">Nombre</string>
+    <string name="datos_paciente">DATOS PACIENTE</string>
+    <string name="apellido">Apellido</string>
+    <string name="cedula">Número de Cédula</string>
+    <string name="continuar">Continuar</string>
+    <string name="glissando">Glissando</string>
+    <string name="efecto_kaiser">Efecto Kaiser</string>
+    <string name="fonetograma">Fonetograma</string>
+    <string name="edad_paciente">Edad</string>
+</resources>

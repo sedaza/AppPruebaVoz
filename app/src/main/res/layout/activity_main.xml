@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.amcaicedo.sena.apppruebavoz.MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/datos_paciente"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="@dimen/titulo"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etNombrePaciente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/nombre"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etApellidoPaciente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/apellido"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etCedulaPaciente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="@string/cedula"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etEdadPaciente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="@string/edad_paciente"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Genero"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"/>
+
+        <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton android:id="@+id/radio_masculino"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Masculino"
+                android:checked="true"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton android:id="@+id/radio_femenino"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Femenino"
+                android:onClick="onRadioButtonClicked"/>
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnContinuar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/continuar"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>
