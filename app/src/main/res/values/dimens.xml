@@ -5,4 +5,7 @@
     <dimen name="titulo">35sp</dimen>
     <dimen name="tam_botones">40sp</dimen>
     <dimen name="margen_botones">70dp</dimen>
+
+    <dimen name="padding_small">10dp</dimen>
+    <dimen name="padding_medium">20dp</dimen>
 </resources>

@@ -84,6 +84,7 @@
             android:layout_marginTop="5dp"/>
 
         <RadioGroup
+            android:id="@+id/radio_group"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -91,7 +92,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Masculino"
-                android:checked="true"
                 android:onClick="onRadioButtonClicked"/>
             <RadioButton android:id="@+id/radio_femenino"
                 android:layout_width="wrap_content"

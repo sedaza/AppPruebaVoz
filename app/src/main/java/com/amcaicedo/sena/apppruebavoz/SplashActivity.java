@@ -2,15 +2,20 @@ package com.amcaicedo.sena.apppruebavoz;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
 
+import com.amcaicedo.sena.apppruebavoz.AppUtil.AppUtil;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class SplashActivity extends Activity {
+
+    boolean login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +31,17 @@ public class SplashActivity extends Activity {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                SharedPreferences preferences = getSharedPreferences(AppUtil.PREFERENCES_NAME, MODE_PRIVATE);
+                login = preferences.getBoolean(AppUtil.KEY_LOGIN, false);
+                Intent intent = null;
+
+                if (login)
+                    intent = new Intent(SplashActivity.this, MainActivity.class);
+                else
+                    intent = new Intent(SplashActivity.this, LoginActivity.class);
+
                 startActivity(intent);
+
                 finish();
             }
         };

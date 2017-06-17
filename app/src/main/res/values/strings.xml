@@ -9,4 +9,12 @@
     <string name="efecto_kaiser">Efecto Kaiser</string>
     <string name="fonetograma">Fonetograma</string>
     <string name="edad_paciente">Edad</string>
+    <string name="titulo_login">Ingresar</string>
+
+
+    <string name="login_usr">Nombre de usuario</string>
+    <string name="login_pass">Contraseña</string>
+    <string name="registrar">Registrar</string>
+    <string name="entrar">Entrar</string>
+    <string name="login_error">Usuario o contraseña invalidos</string>
 </resources>
