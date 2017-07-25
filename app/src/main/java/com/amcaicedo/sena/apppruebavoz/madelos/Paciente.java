@@ -2,6 +2,8 @@ package com.amcaicedo.sena.apppruebavoz.madelos;
 
 import com.orm.SugarRecord;
 
+import java.util.List;
+
 /**
  * Created by Windows 10 Pro on 16/06/2017.
  */
@@ -69,6 +71,17 @@ public class Paciente extends SugarRecord {
 
     public void guardarDatos(Paciente paciente){
         paciente.save();
+    }
+
+    public static Paciente findPacienteByCedula(String cedula){
+        Paciente paciente = null;
+
+        List<Paciente> result = find(Paciente.class, "cedula = ?", cedula);
+
+        if(result.size()>0)
+            paciente = result.get(0);
+
+        return paciente;
     }
 
 }

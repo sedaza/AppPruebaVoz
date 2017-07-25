@@ -1,22 +1,30 @@
 package com.amcaicedo.sena.apppruebavoz;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amcaicedo.sena.apppruebavoz.AppUtil.AppUtil;
 import com.amcaicedo.sena.apppruebavoz.madelos.Paciente;
 import com.orm.SugarContext;
 
-public class MainActivity extends AppCompatActivity {
+import static android.app.PendingIntent.getActivity;
+
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
 
     EditText etNombrePaciente, etApellidoPaciente, etCedulaPaciente, etEdadPaciente;
     Button btnContinuar;
@@ -99,6 +107,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.buscador, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.menu_buscador);
+
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(this);
+
+        MenuItemCompat.setOnActionExpandListener(searchItem, this);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -116,5 +133,73 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onMenuItemActionExpand(MenuItem item) {
+        Toast.makeText(getApplicationContext(), "Buscador activado", Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    @Override
+    public boolean onMenuItemActionCollapse(MenuItem item) {
+        Toast.makeText(getApplicationContext(), "Buscador desactivado", Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        Paciente paciente = null;
+        if(Paciente.findPacienteByCedula(query) != null){
+            paciente = Paciente.findPacienteByCedula(query);
+
+            mostrarDatosPaciente(paciente);
+        }else
+            Toast.makeText(getApplicationContext(), "No hay datos del paciente: " + query, Toast.LENGTH_SHORT).show();
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+
+    private void mostrarDatosPaciente(final Paciente paciente) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Datos del paciente");
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setPadding(10, 10, 10, 10);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        final TextView nombrePaciente = new TextView(this);
+        nombrePaciente.setPadding(5,5,5,5);
+        nombrePaciente.setTextSize(30);
+        nombrePaciente.setText("Nombre: " + paciente.getNombre() + " " + paciente.getApellido());
+        layout.addView(nombrePaciente);
+
+        final TextView cedulaPaciente = new TextView(this);
+        cedulaPaciente.setPadding(5,5,5,5);
+        cedulaPaciente.setTextSize(30);
+        cedulaPaciente.setText("Cédula: " + paciente.getCedula());
+        layout.addView(cedulaPaciente);
+
+        alertDialog.setView(layout);
+
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(MainActivity.this, PruebasActivity.class);
+                intent.putExtra("CEDULA", paciente.getCedula());
+                startActivity(intent);
+            }
+        });
+
+        alertDialog.setNegativeButton("Cancelar", null);
+
+        //show alert
+        alertDialog.show();
     }
 }
