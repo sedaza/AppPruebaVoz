@@ -34,21 +34,21 @@ public class PruebasActivity extends AppCompatActivity implements View.OnClickLi
         switch (v.getId()){
             case R.id.btnGlissando:
                 extras = new Bundle();
-                intent = new Intent(PruebasActivity.this, AudioActivity.class);
+                intent = new Intent(PruebasActivity.this, MainGlissando.class);
                 extras.putString(ARCHIVO, "glissando");
                 intent.putExtras(extras);
                 startActivity(intent);
                 break;
             case R.id.btnEKaiser:
                 extras = new Bundle();
-                intent = new Intent(PruebasActivity.this, AudioActivity.class);
+                intent = new Intent(PruebasActivity.this, MainEkaiser.class);
                 extras.putString(ARCHIVO, "kaiser");
                 intent.putExtras(extras);
                 startActivity(intent);
                 break;
             case R.id.btnFonetograma:
                 extras = new Bundle();
-                intent = new Intent(PruebasActivity.this, AudioActivity.class);
+                intent = new Intent(PruebasActivity.this, MainFonetograma.class);
                 extras.putString(ARCHIVO, "fonetograma");
                 intent.putExtras(extras);
                 startActivity(intent);
