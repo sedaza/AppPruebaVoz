@@ -79,6 +79,12 @@
     <TableRow>
 
 
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:id="@+id/btn_register"
+            android:layout_height="wrap_content"
+            android:text="@string/registrar"/>
+
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_login"
             android:layout_height="wrap_content"

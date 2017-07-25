@@ -3,8 +3,7 @@
     package="com.amcaicedo.sena.apppruebavoz">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -38,7 +37,8 @@
         <activity android:name=".MainFonetograma" />
         <activity android:name=".MainGlissando" />
         <activity android:name=".MainEkaiser" />
-        <activity android:name=".MainResultadoGlissando"></activity>
+        <activity android:name=".MainResultadoGlissando" />
+        <activity android:name=".RegistroActivity"></activity>
     </application>
 
 </manifest>

@@ -13,7 +13,7 @@ import com.amcaicedo.sena.apppruebavoz.madelos.Medico;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button login;
+    Button login, registrar;
     TextInputLayout usr, pass;
 
     SharedPreferences preferences;
@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         editor = preferences.edit();
 
         login = (Button) findViewById(R.id.btn_login);
+        registrar = (Button) findViewById(R.id.btn_register);
 
         usr = (TextInputLayout) findViewById(R.id.edit_usr);
         pass = (TextInputLayout) findViewById(R.id.edit_pass);
@@ -38,6 +39,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 validateMedico();
+            }
+        });
+
+        registrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegistroActivity.class);
+                startActivity(intent);
             }
         });
 
