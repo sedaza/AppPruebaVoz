@@ -3,6 +3,8 @@
     package="com.amcaicedo.sena.apppruebavoz">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
 
     <application
         android:allowBackup="true"
@@ -23,9 +25,8 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.amcaicedo.sena.apppruebavoz" />
 
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".PruebasActivity" />
-        <activity android:name=".AudioActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,7 +34,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".MainFonetograma" />
+        <activity android:name=".MainGlissando" />
+        <activity android:name=".MainEkaiser" />
+        <activity android:name=".MainResultadoGlissando"></activity>
     </application>
 
 </manifest>
