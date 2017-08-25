@@ -47,10 +47,7 @@ public class PruebasActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent);
                 break;
             case R.id.btnFonetograma:
-                extras = new Bundle();
-                intent = new Intent(PruebasActivity.this, MainFonetograma.class);
-                extras.putString(ARCHIVO, "fonetograma");
-                intent.putExtras(extras);
+                intent = new Intent(PruebasActivity.this,TipoFonetoActivity.class);
                 startActivity(intent);
                 break;
         }

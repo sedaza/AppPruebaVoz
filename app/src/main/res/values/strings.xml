@@ -18,4 +18,6 @@
     <string name="entrar">Entrar</string>
     <string name="login_error">Usuario o contraseña invalidos</string>
     <string name="datos_medico">Datos Médico</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="fonetograma_hablado">Fonetograma Hablado</string>
 </resources>

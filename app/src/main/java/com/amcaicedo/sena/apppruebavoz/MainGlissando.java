@@ -10,6 +10,7 @@ import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -38,6 +39,7 @@ import android.media.AudioRecord;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import signal.library.*;
 
 import edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D;
 
@@ -50,6 +52,8 @@ public class MainGlissando extends Activity {
     private int frecuencia;
     private ArrayList datos = new ArrayList();
     private ArrayList datosMuestra = new ArrayList();
+    private ArrayList datosMuestraini = new ArrayList();
+    private ArrayList datosMuestrafin = new ArrayList();
 
     private static final int RECORDER_BPP = 16;
     private static final String AUDIO_RECORDER_FILE_EXT_WAV = ".wav"; // como guardar con autoincremento
@@ -65,6 +69,7 @@ public class MainGlissando extends Activity {
     private boolean isRecording = false;
 
 
+
     private String outputFile = null;
     private Button start, graficar, play; //metodos para grabar, parar y reproducir audio
     private TextView textView;
@@ -78,8 +83,10 @@ public class MainGlissando extends Activity {
     public static short[] cep_alta;
     public static short[] cep_energia;
     public static final int SAMPPERSEC = 22500;
+    public static final int SAMPPERSEC1 = 7000;
     int BufferElements2Rec = 1024; // want to play 2048 (2K) since 2 bytes we use only 1024
     int BytesPerElement = 2; // 2 bytes in 16bit format
+    short [] dataShort;
 
 
     @Override
@@ -186,7 +193,7 @@ public class MainGlissando extends Activity {
 
 
     public void startTimer(){
-        new CountDownTimer(2000, 1000) {//genera un timer de 30000 milisegundos y muestra el estado cada 1000 milisegundos
+        new CountDownTimer(2000,1000) {//genera un timer de 30000 milisegundos y muestra el estado cada 1000 milisegundos
 
             public void onTick(long millisUntilFinished) {
 
@@ -200,6 +207,26 @@ public class MainGlissando extends Activity {
         }.start();
     }
 
+    public void obtenerMuestraini(){
+        for (int x = (0); x < (1000) ; x++){ //
+            //for (int x = 44100; x<(datos)-44100; x++)
+            datosMuestraini.add(datos.get(x));
+
+        }
+        System.out.println("imeeeeeee" + datosMuestra);
+    }
+
+
+    public void obtenerMuestrafin(){
+        for (int x = (datos.size()-1000); x<datos.size(); x++){ //
+            //for (int x = 44100; x<(datos)-44100; x++)
+            datosMuestrafin.add(datos.get(x));
+
+        }
+        System.out.println("imeeeeeee" + datosMuestra);
+    }
+
+
     public void btGraficar(View v){
         obtenerMuestra();
         Algoritmos al = new Algoritmos(datosMuestra);
@@ -209,19 +236,31 @@ public class MainGlissando extends Activity {
         float[] nuevoArr = al.getArreglo1();//getArreglo (grafica sin normalizar)
         graficar(nuevoArr);
 
+       // Log.e("VALOR FRECUENCIA", ""+frequency());
+        Log.e("VALOR FREQ CALCULATE", ""+calculate(SAMPPERSEC1, datos));
+
+        obtenerMuestraini();
+        Double amplitude = 20 * Math.log10(maximos(datosMuestraini) / 1);
+        Log.e("VALOR dB MAXIMOS", ""+amplitude);
+
     }
 
+    //MUESTRAS
     public void obtenerMuestra(){
-        for (int x = (datos.size()/2); x<(datos.size()/2)+2000; x++){
+        for (int x = (datos.size()/2); x<(datos.size()/2)+2000; x++){ //inicio ===  int x= 0 ; x=2000            fin ===    x=datos.size()-100 ; x=datos.size()
+            //for (int x = 44100; x<(datos)-44100; x++)
             datosMuestra.add(datos.get(x));
 
         }
         System.out.println("imeeeeeee" + datosMuestra);
     }
 
+
+
+
     private void writeAudioDataToFile() {
         byte data[] = new byte[bufferSize];
-        short [] dataShort = new short[bufferSize/2];
+        dataShort = new short[bufferSize/2];
         String filename = getTempFilename();
         FileOutputStream os = null;
         System.out.printf("se  detiene aqui"+filename);
@@ -440,16 +479,131 @@ public class MainGlissando extends Activity {
      * @return devuelve la frecuencia
      */
 
-    private int frequency(){
+    private int frequency() {
+        int freq = 0;
+
+        while (true) {
+            if (recorder == null) {
+                System.out.println("estanuloooooooooooooooooooooo");
+            }
+
+            recorder.read(buffer, 0, LongVentana);
 
 
-        while( true )
+            //recorder.read(buffer, 0, LongVentana);
+            //recorder.getBufferSizeInFrames();
+
+            int Tmin, Tmax;
+            int UMBRAL_ENER = 20;
+            int tam_fft;
+            int i_max = 0;
+            double max = 0;
+            int i_max2 = 0;
+            double max2 = 0;
+            double mean = 0;
+            double total = 0;
+            int T;
+
+            int m = (LongVentana / 2) / 2;
+            double r;
+            double pi = Math.PI;
+            double[] w = new double[LongVentana / 2];
+            double[] ventana = new double[LongVentana / 2];
+            double[] cep_alta = new double[LongVentana / 4];
+            double[] cep_energia = new double[LongVentana / 4];
+
+            Tmin = (int) Math.round(0.002 * SAMPPERSEC);
+            Tmax = (int) Math.round(0.015 * SAMPPERSEC);
+            //fft rapidas
+            tam_fft = (int) Math.pow(2, Math.ceil(Math.log(LongVentana / 2) /
+                    Math.log(2)));
+            //ventana hamming
+            r = pi / m;
+            for (int n = -m; n < m; n++) {
+                w[m + n] = 0.54f + 0.46f * Math.cos(n * r);
+            }
+            //ventana es la voz enventanda usando hamming
+            for (int i = 0; i < LongVentana / 2; i++) {
+                ventana[i] = w[i] * buffer[i];
+            }
+            //cepstrum
+            DoubleFFT_1D fftDo = new DoubleFFT_1D(tam_fft);
+            double[] fft = new double[tam_fft * 2];
+            System.arraycopy(ventana, 0, fft, 0, tam_fft);
+            fftDo.realForward(fft);
+            for (int i = 0; i < tam_fft * 2; i++) {
+                fft[i] = Math.log(Math.abs(fft[i]));
+
+            }
+            fftDo.realInverse(fft, true);
+            //cep-alta
+            for (int i = Tmin; i < tam_fft / 4; i++) {
+                cep_alta[i] = fft[i];
+            }
+            //cep_energia
+            for (int i = Tmin; i < tam_fft / 4; i++) {
+                cep_energia[i] = cep_alta[i] * cep_alta[i];
+            }
+            //max y i_max
+            for (int i = Tmin; i < Tmax - Tmin; i++) {
+                if (max < cep_energia[i]) {
+                    max = cep_energia[i];
+                    i_max = i;
+                }
+            }
+            //media cep_energia
+            for (int i = Tmin; i < tam_fft / 4; i++) {
+                total += cep_energia[i];
+                mean = total / ((tam_fft / 4) - Tmin);
+            }
+            //Se buscan máximos anteriores (de índice menor) que tengan amplitud suficiente,
+            // quedándonos con el último que encontremos (el primer máximo que supera el umbral).
+            if (max > UMBRAL_ENER * mean) {
+                for (int i = Tmin; i < i_max - Tmin; i++) {
+                    if (max2 < cep_energia[i]) {
+                        max2 = cep_energia[i];
+                        i_max2 = i;
+                    }
+                }
+
+                while (max2 > UMBRAL_ENER * mean) {
+                    i_max = i_max2;
+                    for (int i = Tmin; i < i_max2 - Tmin; i++) {
+                        if (max2 < cep_energia[i]) {
+                            max2 = cep_energia[i];
+                            i_max2 = i;
+                        }
+                    }
+                }
+                // i_max+Tmin-1 es el numero de muestra dentro del vector cepstrum
+                T = i_max + Tmin - 1;
+
+                if (T != 0) {
+                    freq = Math.round(SAMPPERSEC / T);
+                    return freq;
+                } else {
+                    return freq;
+                }
+            } else {
+                return freq;
+            }
+
+
+        }
+
+
+    }
+
+
+        /*while( true )
         {
             if(recorder==null){
                 System.out.println("estanuloooooooooooooooooooooo");
             }
 
             recorder.read(buffer, 0, LongVentana);
+
+            //recorder.read(buffer, 0, LongVentana);
             //recorder.getBufferSizeInFrames();
 
             int Tmin, Tmax;
@@ -550,11 +704,12 @@ public class MainGlissando extends Activity {
             }
 
             return freq;
-        }
+        }*/
 
-    }
+
 
     private void graficar( float[] nuevoArr) {
+
 
         //contenido para grabar
         double x, y;
@@ -563,7 +718,10 @@ public class MainGlissando extends Activity {
         GraphView graph = (GraphView)findViewById(R.id.graphView);
         series = new LineGraphSeries<DataPoint>();
 
+
+        //-------------------
         for (int i = 0; i<500; i++){//amplitud debido al conversor analogo- digital(16bits)
+            //------------------graficar
             x = i;
             //y = Double.parseDouble(Short.toString((short) datos.get((datos.size()/2)+i)));
             y = (double) nuevoArr[i];
@@ -599,4 +757,41 @@ public class MainGlissando extends Activity {
         myXYPlot.addSeries(series1, series1Format);
         myXYPlot.redraw();*/
     }
+
+    public static int calculate(int sampleRate, ArrayList  audioData){
+
+            int numSamples = audioData.size();
+            int numCrossing = 0;
+            for (int p = 0; p < numSamples - 1; p++) {
+                if (((short)audioData.get(p) > 0 && (short)audioData.get(p + 1) <= 0) ||
+                        ((short)audioData.get(p) < 0 && (short)audioData.get(p+1) >= 0)) {
+                    numCrossing++;
+                }
+            }
+
+            float numSecondsRecorded = (float) numSamples / (float) sampleRate;
+            float numCycles = numCrossing / 2;
+            float frequency = numCycles / numSecondsRecorded;
+            float frequency2= 0.5f*sampleRate*numCrossing/numSamples;
+            return (int) frequency2;
+
+    }
+
+
+    private short maximos(ArrayList arr) {//maximos de cualquier arreglo arr
+        int i;
+        short max = 0;
+        for (i = 0; i < arr.size(); i++)
+        {
+            if ((short)arr.get(i)>max)
+            {
+                max = (short)arr.get(i);
+            }
+
+        }
+        return max;
+    }
+
+
+
 }

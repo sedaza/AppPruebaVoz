@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+
+    <color name="teclaspianonegro">#151415</color>
+    <color name="teclaspianoblanco">#ffffff</color>
+    <color name="fondopiano">#e9eacb</color>
+    <color name="teclasinipiano">#e4e4e4</color>
 </resources>

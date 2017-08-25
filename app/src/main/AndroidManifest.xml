@@ -38,7 +38,9 @@
         <activity android:name=".MainGlissando" />
         <activity android:name=".MainEkaiser" />
         <activity android:name=".MainResultadoGlissando" />
-        <activity android:name=".RegistroActivity"></activity>
+        <activity android:name=".RegistroActivity" />
+        <activity android:name=".TipoFonetoActivity" />
+        <activity android:name=".FonetogramaProActivity"></activity>
     </application>
 
 </manifest>
