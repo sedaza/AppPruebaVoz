@@ -39,6 +39,25 @@ import android.media.AudioRecord;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
+//tarsoso
+import be.tarsos.dsp.AudioDispatcher;
+import be.tarsos.dsp.AudioEvent;
+import be.tarsos.dsp.io.android.AudioDispatcherFactory;
+import be.tarsos.dsp.pitch.PitchDetectionHandler;
+import be.tarsos.dsp.pitch.PitchDetectionResult;
+import be.tarsos.dsp.pitch.PitchProcessor;
+import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+//
 import signal.library.*;
 
 import edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D;
@@ -70,6 +89,7 @@ public class MainGlissando extends Activity {
 
 
 
+
     private String outputFile = null;
     private Button start, graficar, play; //metodos para grabar, parar y reproducir audio
     private TextView textView;
@@ -88,11 +108,18 @@ public class MainGlissando extends Activity {
     int BytesPerElement = 2; // 2 bytes in 16bit format
     short [] dataShort;
 
+//prueba tarsos------------------------------------------
+    //pureba tarsos------------------------------------------
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_glissando);
+
+
+
+
 
         //  myXYPlot = (XYPlot)findViewById(R.id.myXYPlot);
         start = (Button) findViewById(R.id.buttonEmpezar);
@@ -230,11 +257,21 @@ public class MainGlissando extends Activity {
     public void btGraficar(View v){
         obtenerMuestra();
         Algoritmos al = new Algoritmos(datosMuestra);
-        al.calcular();
+        al.calcular(0.8f);
         al.negativos();
         System.out.println("qeeeeeeeeeeeeeeeeeeeeeeeeee");
         float[] nuevoArr = al.getArreglo1();//getArreglo (grafica sin normalizar)
         graficar(nuevoArr);
+        al = new Algoritmos(datosMuestra);
+        al.calcular(0.8f);
+        al.negativos();
+        //al.maxArray();
+        al.prueba();
+        al.buscarPicosNeg();
+        al.PosicionPicos();
+
+        al.restaPicos();
+        al.frecuencia();
 
        // Log.e("VALOR FRECUENCIA", ""+frequency());
         Log.e("VALOR FREQ CALCULATE", ""+calculate(SAMPPERSEC1, datos));

@@ -33,4 +33,5 @@ dependencies {
     compile 'junit:junit:4.12'
     testCompile 'junit:junit:4.12'
     compile files('libs/signalFilter.jar')
+    compile files('libs/TarsosDSP-Android-2.0-bin.jar')
 }
