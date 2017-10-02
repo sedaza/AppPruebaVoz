@@ -35,7 +35,8 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainFonetograma" />
-        <activity android:name=".MainGlissando" />
+        <activity android:name=".MainGlissando"
+            android:screenOrientation="portrait"/>
         <activity android:name=".MainEkaiser" />
         <activity android:name=".MainResultadoGlissando" />
         <activity android:name=".RegistroActivity" />

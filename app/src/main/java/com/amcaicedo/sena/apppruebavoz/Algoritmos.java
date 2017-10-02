@@ -2,6 +2,8 @@ package com.amcaicedo.sena.apppruebavoz;
 
 
 
+import android.util.Log;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -248,6 +250,7 @@ public class Algoritmos {
         return max;
     }
 
+
     public void calcular(float umbral) { // seleccionar los picos del arreglo
 
         picos=new ArrayList();//instanciacion
@@ -431,9 +434,10 @@ public class Algoritmos {
     public void frecuencia()
     {
         int i;
-        float frec;
-        float frec1;
-        for (i=0; i<restaPi.size()-1; i++){
+        float frec=0;
+        float frec1=0;
+        Log.e("Tamaño de restaPi", ""+restaPi.size());
+        for (i=0; i<restaPi.size(); i++){
             frec =  1/(float)restaPi.get(i);
             frec1 = frec*1000000;
             frecFund = frecFund + frec1;

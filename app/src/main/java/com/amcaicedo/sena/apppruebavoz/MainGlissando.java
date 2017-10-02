@@ -94,6 +94,8 @@ public class MainGlissando extends Activity {
     private Button start, graficar, play; //metodos para grabar, parar y reproducir audio
     private TextView textView;
 
+    private ArrayList datosAmplitud = new ArrayList();
+
     //parametros de audio para hallar fo
     public int LongVentana = 2048;
     public int channelConfiguration = AudioFormat.CHANNEL_IN_MONO;
@@ -102,7 +104,7 @@ public class MainGlissando extends Activity {
     public static short[] bufferTemporal;
     public static short[] cep_alta;
     public static short[] cep_energia;
-    public static final int SAMPPERSEC = 22500;
+    public static final int SAMPPERSEC = 44100;
     public static final int SAMPPERSEC1 = 7000;
     int BufferElements2Rec = 1024; // want to play 2048 (2K) since 2 bytes we use only 1024
     int BytesPerElement = 2; // 2 bytes in 16bit format
@@ -220,7 +222,7 @@ public class MainGlissando extends Activity {
 
 
     public void startTimer(){
-        new CountDownTimer(2000,1000) {//genera un timer de 30000 milisegundos y muestra el estado cada 1000 milisegundos
+        new CountDownTimer(8000,1000) {//genera un timer de 30000 milisegundos y muestra el estado cada 1000 milisegundos
 
             public void onTick(long millisUntilFinished) {
 
@@ -235,23 +237,23 @@ public class MainGlissando extends Activity {
     }
 
     public void obtenerMuestraini(){
-        for (int x = (0); x < (1000) ; x++){ //
-            //for (int x = 44100; x<(datos)-44100; x++)
+        //for (int x = (0); x < (1000) ; x++){ //
+            for (int x = 44100; x<(datos.size()-44100); x++){
             datosMuestraini.add(datos.get(x));
 
         }
-        System.out.println("imeeeeeee" + datosMuestra);
+        System.out.println("imeeeeeee" + datosMuestraini);
     }
 
 
-    public void obtenerMuestrafin(){
+    /*public void obtenerMuestrafin(){
         for (int x = (datos.size()-1000); x<datos.size(); x++){ //
             //for (int x = 44100; x<(datos)-44100; x++)
             datosMuestrafin.add(datos.get(x));
 
         }
         System.out.println("imeeeeeee" + datosMuestra);
-    }
+    }*/
 
 
     public void btGraficar(View v){
@@ -273,18 +275,29 @@ public class MainGlissando extends Activity {
         al.restaPicos();
         al.frecuencia();
 
-       // Log.e("VALOR FRECUENCIA", ""+frequency());
-        Log.e("VALOR FREQ CALCULATE", ""+calculate(SAMPPERSEC1, datos));
 
-        obtenerMuestraini();
-        Double amplitude = 20 * Math.log10(maximos(datosMuestraini) / 1);
-        Log.e("VALOR dB MAXIMOS", ""+amplitude);
 
+       obtenerMuestraini();
+        /*Double amplitude = 20 * Math.log10(maximos(datosMuestraini) / 1);
+        Log.e("VALOR dB MAXIMOS", ""+amplitude);*/
+        System.out.println("DATOS AMPLITUD: " + obtenerdB());
+
+    }
+
+    public ArrayList obtenerdB(){
+        short amplitude = 0;
+        for(int x = 0; x < datosMuestra.size(); x+=2000){
+            amplitude = (short) (20 * Math.log10((short) datosMuestraini.get(x) / 1));
+            if (amplitude > 0)
+                datosAmplitud.add(amplitude);
+            Log.e("VALOR dB MAXIMOS", ""+amplitude);
+        }
+        return datosAmplitud;
     }
 
     //MUESTRAS
     public void obtenerMuestra(){
-        for (int x = (datos.size()/2); x<(datos.size()/2)+2000; x++){ //inicio ===  int x= 0 ; x=2000            fin ===    x=datos.size()-100 ; x=datos.size()
+        for (int x = 44100; x<datos.size()-44100; x++){ //inicio ===  int x= 0 ; x=2000            fin ===    x=datos.size()-100 ; x=datos.size()
             //for (int x = 44100; x<(datos)-44100; x++)
             datosMuestra.add(datos.get(x));
 
@@ -477,17 +490,7 @@ public class MainGlissando extends Activity {
 
 
 
-      /*      private void stopRecording() {
-                // stops the recording activity
-                if (null != recorder) {
-                    isRecording = false;
-                    recorder.stop();
-                    recorder.release();
-                    recorder = null;
-                    recordingThread = null;
-                }
-            }
-*/
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -511,237 +514,6 @@ public class MainGlissando extends Activity {
         });
         ventana4.show();
     }
-    /**
-     * Calcula la frecuencia de los datos de audio
-     * @return devuelve la frecuencia
-     */
-
-    private int frequency() {
-        int freq = 0;
-
-        while (true) {
-            if (recorder == null) {
-                System.out.println("estanuloooooooooooooooooooooo");
-            }
-
-            recorder.read(buffer, 0, LongVentana);
-
-
-            //recorder.read(buffer, 0, LongVentana);
-            //recorder.getBufferSizeInFrames();
-
-            int Tmin, Tmax;
-            int UMBRAL_ENER = 20;
-            int tam_fft;
-            int i_max = 0;
-            double max = 0;
-            int i_max2 = 0;
-            double max2 = 0;
-            double mean = 0;
-            double total = 0;
-            int T;
-
-            int m = (LongVentana / 2) / 2;
-            double r;
-            double pi = Math.PI;
-            double[] w = new double[LongVentana / 2];
-            double[] ventana = new double[LongVentana / 2];
-            double[] cep_alta = new double[LongVentana / 4];
-            double[] cep_energia = new double[LongVentana / 4];
-
-            Tmin = (int) Math.round(0.002 * SAMPPERSEC);
-            Tmax = (int) Math.round(0.015 * SAMPPERSEC);
-            //fft rapidas
-            tam_fft = (int) Math.pow(2, Math.ceil(Math.log(LongVentana / 2) /
-                    Math.log(2)));
-            //ventana hamming
-            r = pi / m;
-            for (int n = -m; n < m; n++) {
-                w[m + n] = 0.54f + 0.46f * Math.cos(n * r);
-            }
-            //ventana es la voz enventanda usando hamming
-            for (int i = 0; i < LongVentana / 2; i++) {
-                ventana[i] = w[i] * buffer[i];
-            }
-            //cepstrum
-            DoubleFFT_1D fftDo = new DoubleFFT_1D(tam_fft);
-            double[] fft = new double[tam_fft * 2];
-            System.arraycopy(ventana, 0, fft, 0, tam_fft);
-            fftDo.realForward(fft);
-            for (int i = 0; i < tam_fft * 2; i++) {
-                fft[i] = Math.log(Math.abs(fft[i]));
-
-            }
-            fftDo.realInverse(fft, true);
-            //cep-alta
-            for (int i = Tmin; i < tam_fft / 4; i++) {
-                cep_alta[i] = fft[i];
-            }
-            //cep_energia
-            for (int i = Tmin; i < tam_fft / 4; i++) {
-                cep_energia[i] = cep_alta[i] * cep_alta[i];
-            }
-            //max y i_max
-            for (int i = Tmin; i < Tmax - Tmin; i++) {
-                if (max < cep_energia[i]) {
-                    max = cep_energia[i];
-                    i_max = i;
-                }
-            }
-            //media cep_energia
-            for (int i = Tmin; i < tam_fft / 4; i++) {
-                total += cep_energia[i];
-                mean = total / ((tam_fft / 4) - Tmin);
-            }
-            //Se buscan máximos anteriores (de índice menor) que tengan amplitud suficiente,
-            // quedándonos con el último que encontremos (el primer máximo que supera el umbral).
-            if (max > UMBRAL_ENER * mean) {
-                for (int i = Tmin; i < i_max - Tmin; i++) {
-                    if (max2 < cep_energia[i]) {
-                        max2 = cep_energia[i];
-                        i_max2 = i;
-                    }
-                }
-
-                while (max2 > UMBRAL_ENER * mean) {
-                    i_max = i_max2;
-                    for (int i = Tmin; i < i_max2 - Tmin; i++) {
-                        if (max2 < cep_energia[i]) {
-                            max2 = cep_energia[i];
-                            i_max2 = i;
-                        }
-                    }
-                }
-                // i_max+Tmin-1 es el numero de muestra dentro del vector cepstrum
-                T = i_max + Tmin - 1;
-
-                if (T != 0) {
-                    freq = Math.round(SAMPPERSEC / T);
-                    return freq;
-                } else {
-                    return freq;
-                }
-            } else {
-                return freq;
-            }
-
-
-        }
-
-
-    }
-
-
-        /*while( true )
-        {
-            if(recorder==null){
-                System.out.println("estanuloooooooooooooooooooooo");
-            }
-
-            recorder.read(buffer, 0, LongVentana);
-
-            //recorder.read(buffer, 0, LongVentana);
-            //recorder.getBufferSizeInFrames();
-
-            int Tmin, Tmax;
-            int UMBRAL_ENER=20;
-            int tam_fft;
-            int i_max=0;
-            double max=0;
-            int i_max2=0;
-            double max2=0;
-            double mean=0;
-            double total=0;
-            int T;
-            int freq;
-            int m = (LongVentana/2) / 2;
-            double r;
-            double pi = Math.PI;
-            double[] w = new double[LongVentana/2];
-            double[] ventana = new double[LongVentana/2];
-            double[] cep_alta = new double[LongVentana/4];
-            double[] cep_energia = new double[LongVentana/4];
-
-            Tmin=(int)Math.round(0.002*SAMPPERSEC);
-            Tmax=(int)Math.round(0.015*SAMPPERSEC);
-            //fft rapidas
-            tam_fft=(int)Math.pow( 2, Math.ceil( Math.log(LongVentana/2) /
-                    Math.log(2)));
-            //ventana hamming
-            r = pi / m;
-            for (int n = -m; n < m; n++){
-                w[m + n] = 0.54f + 0.46f * Math.cos(n * r);
-            }
-            //ventana es la voz enventanda usando hamming
-            for (int i = 0; i < LongVentana/2; i++){
-                ventana[i]=w[i]*buffer[i];
-            }
-            //cepstrum
-            DoubleFFT_1D fftDo = new DoubleFFT_1D(tam_fft);
-            double[] fft = new double[tam_fft*2];
-            System.arraycopy(ventana, 0, fft, 0, tam_fft);
-            fftDo.realForward(fft);
-            for (int i = 0; i < tam_fft*2; i++){
-                fft[i]=Math.log(Math.abs(fft[i]));
-
-            }
-            fftDo.realInverse(fft,true);
-            //cep-alta
-            for (int i = Tmin; i < tam_fft/4; i++){
-                cep_alta[i]=fft[i];
-            }
-            //cep_energia
-            for (int i = Tmin; i < tam_fft/4; i++){
-                cep_energia[i]=cep_alta[i]*cep_alta[i];
-            }
-            //max y i_max
-            for (int i = Tmin; i < Tmax-Tmin; i++){
-                if (max<cep_energia[i]){
-                    max=cep_energia[i];
-                    i_max=i;
-                }
-            }
-            //media cep_energia
-            for (int i = Tmin; i < tam_fft/4; i++){
-                total+=cep_energia[i];
-                mean=total/((tam_fft/4)-Tmin);
-            }
-            //Se buscan máximos anteriores (de índice menor) que tengan amplitud suficiente,
-            // quedándonos con el último que encontremos (el primer máximo que supera el umbral).
-            if (max>UMBRAL_ENER*mean){
-                for (int i = Tmin; i < i_max-Tmin; i++){
-                    if (max2<cep_energia[i]){
-                        max2=cep_energia[i];
-                        i_max2=i;
-                    }
-                }
-
-                while (max2>UMBRAL_ENER*mean){
-                    i_max=i_max2;
-                    for (int i = Tmin; i < i_max2-Tmin; i++){
-                        if (max2<cep_energia[i]){
-                            max2=cep_energia[i];
-                            i_max2=i;
-                        }
-                    }
-                }
-                // i_max+Tmin-1 es el numero de muestra dentro del vector cepstrum
-                T=i_max+Tmin-1;
-                if (T!=0){
-                    freq=Math.round(SAMPPERSEC/T);
-                }
-
-                else{
-                    freq=0;
-                }
-            }
-
-            else{
-                freq=0;
-            }
-
-            return freq;
-        }*/
 
 
 
@@ -752,83 +524,34 @@ public class MainGlissando extends Activity {
         double x, y;
         x = 0;
 
-        GraphView graph = (GraphView)findViewById(R.id.graphView);
+        GraphView graph = (GraphView) findViewById(R.id.graphView);
         series = new LineGraphSeries<DataPoint>();
 
 
         //-------------------
-        for (int i = 0; i<500; i++){//amplitud debido al conversor analogo- digital(16bits)
+        for (int i = 0; i < 2000; i++) {//amplitud debido al conversor analogo- digital(16bits)
             //------------------graficar
             x = i;
             //y = Double.parseDouble(Short.toString((short) datos.get((datos.size()/2)+i)));
             y = (double) nuevoArr[i];
-            series.appendData(new DataPoint(x,y), true, 500);
+            series.appendData(new DataPoint(x, y), true, 2000);
         }
         graph.addSeries(series);
-
-/*
-        myXYPlot = (XYPlot)findViewById(R.id.myXYPlot);
-
-        //creamos un array con los diguientes datos
-        Number[] Datos1 = new Number[2000]; //Con estos datos se empiezan a calcular los parametros
-
-        int cont =0;
-        for (int i = bufferTemporal.length-1999; i< bufferTemporal.length; i++){
-
-            Datos1[cont] = (Number) bufferTemporal[i];
-            System.out.println("ddddddddddddddddddddddddddddddddddddd" + Datos1[cont]);
-            cont ++;
-        }
-
-        //Number [] Datos2 = {1,2,4,6,8,0,9,6,4};
-        XYSeries series1 = new SimpleXYSeries(
-                Arrays.asList(Datos1),
-                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,//Solo valores verticales
-                "Series1"); //Nombre de primera serie
-        //Modificar los colores de la serie
-        LineAndPointFormatter series1Format = new LineAndPointFormatter(
-                Color.rgb(0, 200, 0),//color linea
-                Color.rgb(0, 100, 0),//color punto
-                //Color.rgb(150, 190, 150), null); //color relleno
-                Color.rgb(255,255,255), null);
-        myXYPlot.addSeries(series1, series1Format);
-        myXYPlot.redraw();*/
     }
 
-    public static int calculate(int sampleRate, ArrayList  audioData){
-
-            int numSamples = audioData.size();
-            int numCrossing = 0;
-            for (int p = 0; p < numSamples - 1; p++) {
-                if (((short)audioData.get(p) > 0 && (short)audioData.get(p + 1) <= 0) ||
-                        ((short)audioData.get(p) < 0 && (short)audioData.get(p+1) >= 0)) {
-                    numCrossing++;
-                }
-            }
-
-            float numSecondsRecorded = (float) numSamples / (float) sampleRate;
-            float numCycles = numCrossing / 2;
-            float frequency = numCycles / numSecondsRecorded;
-            float frequency2= 0.5f*sampleRate*numCrossing/numSamples;
-            return (int) frequency2;
-
-    }
-
-
-    private short maximos(ArrayList arr) {//maximos de cualquier arreglo arr
+    public short maximos(ArrayList arr) {//maximos de cualquier arreglo arr
         int i;
-        short max = 0;
-        for (i = 0; i < arr.size(); i++)
-        {
-            if ((short)arr.get(i)>max)
-            {
-                max = (short)arr.get(i);
+        short max = (short) 50;
+        for (i = 0; i < arr.size(); i++) {
+            if ((short) arr.get(i) > max) {
+                max = (short) arr.get(i);
+
             }
 
         }
+        Log.e("VALOR DE MAX", ""+max);
         return max;
     }
 
-
-
 }
+
