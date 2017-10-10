@@ -94,7 +94,7 @@ public class MainGlissando extends Activity {
     private Button start, graficar, play; //metodos para grabar, parar y reproducir audio
     private TextView textView;
 
-    private ArrayList datosAmplitud = new ArrayList();
+    public static ArrayList datosAmplitud = new ArrayList();
 
     //parametros de audio para hallar fo
     public int LongVentana = 2048;
@@ -286,11 +286,14 @@ public class MainGlissando extends Activity {
 
     public ArrayList obtenerdB(){
         short amplitude = 0;
-        for(int x = 0; x < datosMuestra.size(); x+=2000){
-            amplitude = (short) (20 * Math.log10((short) datosMuestraini.get(x) / 1));
-            if (amplitude > 0)
+        for(int x = 0; x < datosMuestraini.size(); x+=100){
+
+            if ((short)datosMuestraini.get(x) > 300){
+                amplitude = (short) (20 * Math.log10((short) datosMuestraini.get(x) / 1));
                 datosAmplitud.add(amplitude);
-            Log.e("VALOR dB MAXIMOS", ""+amplitude);
+                Log.e("VALOR dB MAXIMOS", ""+amplitude);
+            }
+
         }
         return datosAmplitud;
     }
@@ -545,13 +548,10 @@ public class MainGlissando extends Activity {
         for (i = 0; i < arr.size(); i++) {
             if ((short) arr.get(i) > max) {
                 max = (short) arr.get(i);
-
             }
-
         }
         Log.e("VALOR DE MAX", ""+max);
         return max;
     }
-
 }
 

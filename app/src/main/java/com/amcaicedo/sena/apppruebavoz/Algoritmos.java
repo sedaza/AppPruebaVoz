@@ -18,6 +18,7 @@ public class Algoritmos {
     private float[] tmfArreglo;
     private float Jitta;
     private float frecFund;
+    private ArrayList datosAmplitud;
     private float Jitt;
     private float RAP;
     private float TemPeriodos;
@@ -38,6 +39,8 @@ public class Algoritmos {
     private float apq3;
     private float Resta22;
     float Suma = 0;
+
+    public static ArrayList datosFrecuencia = new ArrayList();
 
 
     public float[] getArreglo() {
@@ -250,6 +253,19 @@ public class Algoritmos {
         return max;
     }
 
+  /*  public ArrayList obtenerdB(){
+        short amplitude = 0;
+        for(int x = 0; x < maximos().size; x+=2000){
+            amplitude =  (20 * Math.log10(maximos(arr) / 1));
+            if (amplitude > 0)
+                datosAmplitud.add(amplitude);
+            Log.e("VALOR dB MAXIMOS", ""+amplitude);
+        }
+        return datosAmplitud;
+    }
+*/
+
+
 
     public void calcular(float umbral) { // seleccionar los picos del arreglo
 
@@ -437,9 +453,11 @@ public class Algoritmos {
         float frec=0;
         float frec1=0;
         Log.e("Tamaño de restaPi", ""+restaPi.size());
+
         for (i=0; i<restaPi.size(); i++){
             frec =  1/(float)restaPi.get(i);
             frec1 = frec*1000000;
+            datosFrecuencia.add(frec1);
             frecFund = frecFund + frec1;
             System.out.println("frecuencia"+frec1);
         }

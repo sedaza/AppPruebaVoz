@@ -20,4 +20,6 @@
     <string name="datos_medico">Datos Médico</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="fonetograma_hablado">Fonetograma Hablado</string>
+    <string name="frecuencia_tiempo">Frecuencia / Tiempo</string>
+    <string name="intensidad_tiempo">Intensidad / Tiempo</string>
 </resources>
