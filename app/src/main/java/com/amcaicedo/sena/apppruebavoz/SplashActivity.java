@@ -15,7 +15,7 @@ import java.util.TimerTask;
 
 public class SplashActivity extends Activity {
 
-    boolean login;
+    //boolean login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +31,16 @@ public class SplashActivity extends Activity {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                SharedPreferences preferences = getSharedPreferences(AppUtil.PREFERENCES_NAME, MODE_PRIVATE);
-                login = preferences.getBoolean(AppUtil.KEY_LOGIN, false);
+                //SharedPreferences preferences = getSharedPreferences(AppUtil.PREFERENCES_NAME, MODE_PRIVATE);
+                //login = preferences.getBoolean(AppUtil.KEY_LOGIN, false);
                 Intent intent = null;
 
-                if (login)
+                /*if (login)
                     intent = new Intent(SplashActivity.this, MainActivity.class);
                 else
-                    intent = new Intent(SplashActivity.this, LoginActivity.class);
+                    intent = new Intent(SplashActivity.this, LoginActivity.class);*/
 
+                intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
 
                 finish();

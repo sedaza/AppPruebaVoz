@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
@@ -17,14 +18,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.lang.reflect.Array;
 import java.net.FileNameMap;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -95,6 +100,7 @@ public class MainGlissando extends Activity {
     private TextView textView;
 
     public static ArrayList datosAmplitud = new ArrayList();
+    public static ArrayList datosAmplitud2 = new ArrayList();
 
     //parametros de audio para hallar fo
     public int LongVentana = 2048;
@@ -238,7 +244,7 @@ public class MainGlissando extends Activity {
 
     public void obtenerMuestraini(){
         //for (int x = (0); x < (1000) ; x++){ //
-            for (int x = 44100; x<(datos.size()-44100); x++){
+            for (int x =2000; x<50000; x++){
             datosMuestraini.add(datos.get(x));
 
         }
@@ -286,7 +292,8 @@ public class MainGlissando extends Activity {
 
     public ArrayList obtenerdB(){
         short amplitude = 0;
-        for(int x = 0; x < datosMuestraini.size(); x+=100){
+        float promediodBs = 0.0f;
+        for(int x = 0; x < datosMuestraini.size(); x+=20){
 
             if ((short)datosMuestraini.get(x) > 300){
                 amplitude = (short) (20 * Math.log10((short) datosMuestraini.get(x) / 1));
@@ -295,7 +302,14 @@ public class MainGlissando extends Activity {
             }
 
         }
-        return datosAmplitud;
+        for(int x = 0; x < datosAmplitud.size()-1; x++) {
+
+            promediodBs=(Float.parseFloat(String.valueOf(datosAmplitud.get(x)))+Float.parseFloat(String.valueOf(datosAmplitud.get(x+1))))/2;
+            datosAmplitud2.add(promediodBs);
+
+
+        }
+        return datosAmplitud2;
     }
 
     //MUESTRAS
@@ -477,6 +491,23 @@ public class MainGlissando extends Activity {
         Toast.makeText(this, "Playing audio", Toast.LENGTH_SHORT);
 
     }
+/*
+    public void play (View v)throws IOException {
+        // copyWaveFile(getTempFilename(), getFilename());
+        //deleteTempFile();
+        MediaPlayer m = new MediaPlayer();
+        String filepath = Environment.getExternalStorageDirectory().getPath();
+        File file = new File(filepath, AUDIO_RECORDER_FOLDER);
+        m.setDataSource(file.getAbsolutePath() + "/" + "muestra1" + AUDIO_RECORDER_FILE_EXT_WAV);
+
+        m.prepare();
+        m.start();
+        Toast.makeText(this, "Playing audio", Toast.LENGTH_SHORT);
+
+        nuevoEnsayo();// metodo para cargar señales de audio
+    }
+*/
+
 
     //convert short to byte
     private byte[] short2byte(short[] sData) {
@@ -491,7 +522,48 @@ public class MainGlissando extends Activity {
 
     }
 
+    public void nuevoEnsayo(){
+        String filepath = Environment.getExternalStorageDirectory().getPath();
+        File file = new File(filepath, AUDIO_RECORDER_FOLDER);
+        outputFile = file.getAbsolutePath() + "/" + "muestra1" + AUDIO_RECORDER_FILE_EXT_WAV;
+        byte[] soundBytes;
 
+        try {
+            InputStream inputStream =
+                    getContentResolver().openInputStream(Uri.fromFile(new File(outputFile)));
+
+            soundBytes = new byte[inputStream.available()];
+            soundBytes = toByteArray(inputStream);
+
+            Toast.makeText(this, "Recordin Finished"+ " " + soundBytes, Toast.LENGTH_LONG).show();
+
+            //señal en short
+            short[] shorts = new short[soundBytes.length/2];
+            // to turn bytes to shorts as either big endian or little endian.
+            ByteBuffer.wrap(soundBytes).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().get(shorts);
+            for (int i= 0; i<shorts.length; i++){
+                datos.add(shorts[i]);
+            }
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public byte[] toByteArray(InputStream in) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        int read = 0;
+        byte[] buffer = new byte[1024];
+        while (read != -1) {
+            read = in.read(buffer);
+            if (read != -1)
+                out.write(buffer,0,read);
+        }
+        out.close();
+        return out.toByteArray();
+    }
+
+    //------------------------------------------
 
 
 
