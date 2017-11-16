@@ -116,17 +116,11 @@ public class MainGlissando extends Activity {
     int BytesPerElement = 2; // 2 bytes in 16bit format
     short [] dataShort;
 
-//prueba tarsos------------------------------------------
-    //pureba tarsos------------------------------------------
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_glissando);
-
-
-
 
 
         //  myXYPlot = (XYPlot)findViewById(R.id.myXYPlot);
@@ -153,21 +147,6 @@ public class MainGlissando extends Activity {
         });
     }
 
-//-----------------
-        //bAnterior33 = (Button)findViewById(R.id.bAnterior3);
-        //bAnterior33.setOnClickListener(new View.OnClickListener() {
-        //   @Override
-        //  public void onClick(View v) {
-
-              //Intent intent5 = new Intent(ActivityCincoAudioRecording.this, ActivityCuatroTExamen.class);
-        //        finish();
-
-        //  }
-        //});
-
-        //enableButtons(false);
-        //}
-//-------------------
 
     private void enableButton(int id, boolean isEnable) {
         ((Button) findViewById(id)).setEnabled(isEnable);
@@ -252,15 +231,7 @@ public class MainGlissando extends Activity {
     }
 
 
-    /*public void obtenerMuestrafin(){
-        for (int x = (datos.size()-1000); x<datos.size(); x++){ //
-            //for (int x = 44100; x<(datos)-44100; x++)
-            datosMuestrafin.add(datos.get(x));
-
-        }
-        System.out.println("imeeeeeee" + datosMuestra);
-    }*/
-
+  //--------------FALTa----------------
 
     public void btGraficar(View v){
         obtenerMuestra();
@@ -282,13 +253,14 @@ public class MainGlissando extends Activity {
         al.frecuencia();
 
 
-
        obtenerMuestraini();
         /*Double amplitude = 20 * Math.log10(maximos(datosMuestraini) / 1);
         Log.e("VALOR dB MAXIMOS", ""+amplitude);*/
         System.out.println("DATOS AMPLITUD: " + obtenerdB());
 
     }
+
+    //----------------------------
 
     public ArrayList obtenerdB(){
         short amplitude = 0;
@@ -491,22 +463,8 @@ public class MainGlissando extends Activity {
         Toast.makeText(this, "Playing audio", Toast.LENGTH_SHORT);
 
     }
-/*
-    public void play (View v)throws IOException {
-        // copyWaveFile(getTempFilename(), getFilename());
-        //deleteTempFile();
-        MediaPlayer m = new MediaPlayer();
-        String filepath = Environment.getExternalStorageDirectory().getPath();
-        File file = new File(filepath, AUDIO_RECORDER_FOLDER);
-        m.setDataSource(file.getAbsolutePath() + "/" + "muestra1" + AUDIO_RECORDER_FILE_EXT_WAV);
 
-        m.prepare();
-        m.start();
-        Toast.makeText(this, "Playing audio", Toast.LENGTH_SHORT);
 
-        nuevoEnsayo();// metodo para cargar señales de audio
-    }
-*/
 
 
     //convert short to byte

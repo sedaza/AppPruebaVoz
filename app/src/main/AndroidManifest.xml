@@ -35,13 +35,16 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainFonetograma" />
-        <activity android:name=".MainGlissando"
+        <activity
+            android:name=".MainGlissando"
+            android:screenOrientation="portrait" />
+        <activity android:name=".MainEkaiser"
             android:screenOrientation="portrait"/>
-        <activity android:name=".MainEkaiser" />
         <activity android:name=".MainResultadoGlissando" />
         <activity android:name=".RegistroActivity" />
         <activity android:name=".TipoFonetoActivity" />
-        <activity android:name=".FonetogramaProActivity"></activity>
+        <activity android:name=".FonetogramaProActivity" />
+        <activity android:name=".MainResultadosEkaiser"></activity>
     </application>
 
 </manifest>
