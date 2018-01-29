@@ -1,9 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.amcaicedo.sena.apppruebavoz.OpcionesGlissandoActivity">
 
-</android.support.constraint.ConstraintLayout>
+<FrameLayout
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:src="@drawable/medica"
+    android:scaleType="centerCrop"/>
+</FrameLayout>
+
+
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+android:layout_centerInParent="true">
+
+<TextView
+    android:id="@+id/tvGGrabar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/grabar_audio"
+    android:textSize="@dimen/tam_botones"
+    android:layout_marginBottom="@dimen/margen_botones"
+    android:textAlignment="center"/>
+<TextView
+    android:id="@+id/tvGCargarAudio"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/cargar_audio"
+    android:textSize="@dimen/tam_botones"
+
+    android:textAlignment="center"/>
+
+
+</LinearLayout>
+
+
+    </RelativeLayout>
