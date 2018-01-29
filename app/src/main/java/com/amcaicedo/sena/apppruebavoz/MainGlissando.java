@@ -1,6 +1,7 @@
 package com.amcaicedo.sena.apppruebavoz;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -46,13 +47,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 //tarsoso
-import be.tarsos.dsp.AudioDispatcher;
-import be.tarsos.dsp.AudioEvent;
-import be.tarsos.dsp.io.android.AudioDispatcherFactory;
-import be.tarsos.dsp.pitch.PitchDetectionHandler;
-import be.tarsos.dsp.pitch.PitchDetectionResult;
-import be.tarsos.dsp.pitch.PitchProcessor;
-import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -63,21 +58,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 //
-import signal.library.*;
+//import signal.library.*;
 
-import edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D;
+
 
 public class MainGlissando extends Activity {
 
     Button bSiguiente33, bAnterior33;
     LineGraphSeries<DataPoint> series;//para graficar
 
-   // private XYPlot myXYPlot;
+    // private XYPlot myXYPlot;
     private int frecuencia;
     private ArrayList datos = new ArrayList();
     private ArrayList datosMuestra = new ArrayList();
     private ArrayList datosMuestraini = new ArrayList();
     private ArrayList datosMuestrafin = new ArrayList();
+    private Algoritmos al;
 
     private static final int RECORDER_BPP = 16;
     private static final String AUDIO_RECORDER_FILE_EXT_WAV = ".wav"; // como guardar con autoincremento
@@ -116,6 +112,8 @@ public class MainGlissando extends Activity {
     int BytesPerElement = 2; // 2 bytes in 16bit format
     short [] dataShort;
 
+    ProgressDialog loading;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,9 +137,16 @@ public class MainGlissando extends Activity {
             @Override
             public void onClick(View v) {
 
+
                 Intent intent4 = new Intent(MainGlissando.this, MainResultadoGlissando.class);
-                intent4.putExtra("frecuencia", String.valueOf(frecuencia));
+                intent4.putExtra("frecuencia", al.getFrecFund());
+                ArrayList frecuenciastring = new ArrayList<String>();
+                for (int d=0; d<al.getDatosFrecuencia().size(); d++){
+                    frecuenciastring.add(al.getDatosFrecuencia().get(d).toString());
+                }
+                intent4.putStringArrayListExtra("algoritmos", frecuenciastring);
                 startActivity(intent4);
+
 
             }
         });
@@ -178,7 +183,13 @@ public class MainGlissando extends Activity {
         if(tempFile.exists())
             tempFile.delete();
         return (file.getAbsolutePath() + "/" + AUDIO_RECORDER_TEMP_FILE);
+
     }
+
+
+
+
+
 
     public void startRecording(View v){
 
@@ -223,7 +234,7 @@ public class MainGlissando extends Activity {
 
     public void obtenerMuestraini(){
         //for (int x = (0); x < (1000) ; x++){ //
-            for (int x =2000; x<50000; x++){
+        for (int x =44100; x<308000; x++){
             datosMuestraini.add(datos.get(x));
 
         }
@@ -231,21 +242,26 @@ public class MainGlissando extends Activity {
     }
 
 
-  //--------------FALTa----------------
+    //--------------FALTa----------------
 
     public void btGraficar(View v){
+        /*loading = new ProgressDialog(getApplicationContext());
+        loading.setTitle("Gráfica");
+        loading.setMessage("Obteniendo gráfica...");
+        loading.setCancelable(false);
+        loading.show();*/
         obtenerMuestra();
-        Algoritmos al = new Algoritmos(datosMuestra);
+        al = new Algoritmos(datosMuestra);
         al.calcular(0.8f);
         al.negativos();
         System.out.println("qeeeeeeeeeeeeeeeeeeeeeeeeee");
         float[] nuevoArr = al.getArreglo1();//getArreglo (grafica sin normalizar)
         graficar(nuevoArr);
-        al = new Algoritmos(datosMuestra);
+       /* al = new Algoritmos(datosMuestra);
         al.calcular(0.8f);
         al.negativos();
         //al.maxArray();
-        al.prueba();
+        */al.prueba();
         al.buscarPicosNeg();
         al.PosicionPicos();
 
@@ -253,11 +269,13 @@ public class MainGlissando extends Activity {
         al.frecuencia();
 
 
-       obtenerMuestraini();
+        //Log.e("valor frecuencia fundamental",+al.getFrecFund());
+
+        obtenerMuestraini();
         /*Double amplitude = 20 * Math.log10(maximos(datosMuestraini) / 1);
         Log.e("VALOR dB MAXIMOS", ""+amplitude);*/
         System.out.println("DATOS AMPLITUD: " + obtenerdB());
-
+        //loading.dismiss();
     }
 
     //----------------------------
@@ -265,9 +283,9 @@ public class MainGlissando extends Activity {
     public ArrayList obtenerdB(){
         short amplitude = 0;
         float promediodBs = 0.0f;
-        for(int x = 0; x < datosMuestraini.size(); x+=20){
+        for(int x = 0; x < datosMuestraini.size(); x++){
 
-            if ((short)datosMuestraini.get(x) > 300){
+            if ((short)datosMuestraini.get(x) > 50){
                 amplitude = (short) (20 * Math.log10((short) datosMuestraini.get(x) / 1));
                 datosAmplitud.add(amplitude);
                 Log.e("VALOR dB MAXIMOS", ""+amplitude);
@@ -380,7 +398,7 @@ public class MainGlissando extends Activity {
             out = new FileOutputStream(outFilename);
             totalAudioLen = in.getChannel().size();
             totalDataLen = totalAudioLen + 36;
-           // AppLog.logString("File size: " + totalDataLen);
+            // AppLog.logString("File size: " + totalDataLen);
             WriteWaveFileHeader(out, totalAudioLen, totalDataLen,
                     longSampleRate, channels, byteRate);
             while (in.read(data) != -1) {
@@ -467,6 +485,7 @@ public class MainGlissando extends Activity {
 
 
 
+
     //convert short to byte
     private byte[] short2byte(short[] sData) {
         int shortArrsize = sData.length;
@@ -508,6 +527,7 @@ public class MainGlissando extends Activity {
         }
     }
 
+
     public byte[] toByteArray(InputStream in) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         int read = 0;
@@ -521,7 +541,7 @@ public class MainGlissando extends Activity {
         return out.toByteArray();
     }
 
-    //------------------------------------------
+
 
 
 
@@ -562,12 +582,12 @@ public class MainGlissando extends Activity {
 
 
         //-------------------
-        for (int i = 0; i < 2000; i++) {//amplitud debido al conversor analogo- digital(16bits)
+        for (int i = 0; i < 10000; i++) {//amplitud debido al conversor analogo- digital(16bits)
             //------------------graficar
             x = i;
             //y = Double.parseDouble(Short.toString((short) datos.get((datos.size()/2)+i)));
             y = (double) nuevoArr[i];
-            series.appendData(new DataPoint(x, y), true, 2000);
+            series.appendData(new DataPoint(x, y), true, 10000);
         }
         graph.addSeries(series);
     }

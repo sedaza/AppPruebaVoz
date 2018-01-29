@@ -17,7 +17,9 @@ public class Paciente extends SugarRecord {
     //0 para femenino y 1para Masculino
     private int genero;
 
-    private Resultado [] resultados;
+
+    //pendiente
+    //private Resultado [] resultados;
 
     public Paciente() {
 

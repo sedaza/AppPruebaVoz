@@ -47,7 +47,7 @@ public class PruebasActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent);
                 break;
             case R.id.btnFonetograma:
-                intent = new Intent(PruebasActivity.this,TipoFonetoActivity.class);
+                intent = new Intent(PruebasActivity.this,FonetogramaProActivity.class);
                 startActivity(intent);
                 break;
         }

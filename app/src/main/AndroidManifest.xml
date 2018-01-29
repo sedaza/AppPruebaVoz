@@ -38,13 +38,15 @@
         <activity
             android:name=".MainGlissando"
             android:screenOrientation="portrait" />
-        <activity android:name=".MainEkaiser"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MainEkaiser"
+            android:screenOrientation="portrait" />
         <activity android:name=".MainResultadoGlissando" />
         <activity android:name=".RegistroActivity" />
         <activity android:name=".TipoFonetoActivity" />
         <activity android:name=".FonetogramaProActivity" />
-        <activity android:name=".MainResultadosEkaiser"></activity>
+        <activity android:name=".MainResultadosEkaiser" />
+        <activity android:name=".OpcionesGlissandoActivity"></activity>
     </application>
 
 </manifest>

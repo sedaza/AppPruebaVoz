@@ -2,17 +2,16 @@ package com.amcaicedo.sena.apppruebavoz;
 
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- * Created by YEIMY BRAVO on 20/06/2017.
- */
-
 public class Algoritmos {
+
 
     private float[] arreglo;
     private float[] tmfArreglo;
@@ -40,7 +39,15 @@ public class Algoritmos {
     private float Resta22;
     float Suma = 0;
 
-    public static ArrayList datosFrecuencia = new ArrayList();
+    public ArrayList getDatosFrecuencia() {
+        return datosFrecuencia;
+    }
+
+    public void setDatosFrecuencia(ArrayList datosFrecuencia) {
+        this.datosFrecuencia = datosFrecuencia;
+    }
+
+    private ArrayList datosFrecuencia = new ArrayList();
 
 
     public float[] getArreglo() {
@@ -228,25 +235,22 @@ public class Algoritmos {
     }
 
 
-
-    float [] arreglo1;
+    float[] arreglo1;
 
     public Algoritmos(ArrayList arr) {
-        System.out.println("Oriiiiiginal" +arr.size());
+        System.out.println("Oriiiiiginal" + arr.size());
         this.arreglo = new float[arr.size()];
-        for (int i = 0; i<arreglo.length; i++){
-            arreglo[i] = Float.parseFloat(Short.toString((short)arr.get(i)));
+        for (int i = 0; i < arreglo.length; i++) {
+            arreglo[i] = Float.parseFloat(Short.toString((short) arr.get(i)));
         }
-        System.out.println("Areglooooooooooooooooooooo" +arreglo.length);
+        System.out.println("Areglooooooooooooooooooooo" + arreglo.length);
     }
 
     private float maximos(float[] arr) {//maximos de cualquier arreglo de positivos
         int i;
         float max = 0f;
-        for (i = 0; i < arr.length; i++)
-        {
-            if (arreglo[i]>max)
-            {
+        for (i = 0; i < arr.length; i++) {
+            if (arreglo[i] > max) {
                 max = arreglo[i];
             }
         }
@@ -266,68 +270,66 @@ public class Algoritmos {
 */
 
 
-
     public void calcular(float umbral) { // seleccionar los picos del arreglo
 
-        picos=new ArrayList();//instanciacion
+        picos = new ArrayList();//instanciacion
         posicion = new ArrayList();
-        arreglo1= normalizar(arreglo);
+        arreglo1 = normalizar(arreglo);
         //System.out.println("qqqqqqqqqqqqqqqqqqqqqq"+arreglo1.length);
         // umbral = 0.8f;
         float umbral2 = -umbral;
         int k;
-        for (k = 1; k < arreglo1.length-1; k++)//
+        for (k = 1; k < arreglo1.length - 1; k++)//
         {
             // System.out.println("qqqqqqqqqqqqqqqqqqqqqq"+arreglo1[k]);
-            if((arreglo1[k]>arreglo1[k-1] && arreglo1[k]>arreglo1[k+1] && arreglo1[k]>umbral) || (arreglo1[k]<arreglo1[k-1] && arreglo1[k]<arreglo1[k+1] &&  arreglo1[k]<umbral2))
-            {
+           // Log.e("arreglo datospocision", ""+arreglo1[k]);
+           // Log.e("arreglo datospocision k", ""+k);
+            if ((arreglo1[k] >= arreglo1[k - 1] && arreglo1[k] >= arreglo1[k + 1] && arreglo1[k] > umbral) || (arreglo1[k] <= arreglo1[k - 1] && arreglo1[k] <= arreglo1[k + 1] && arreglo1[k] < umbral2)) {
                 System.out.println("qqqqqqqqqqqqqqqqqqqqqq" + arreglo1[k]);
-                System.out.println("aaaaaa" +k);
+
+                System.out.println("aaaaaa" + k);
                 picos.add(arreglo1[k]);
                 posicion.add(k);
             }
         }
-        System.out.println("ooooooooooooooo"+ posicion.size());
-        System.out.println("uuuuuuuuuuuuuu"+ picos.size()); // comparar que hay 24 picos en matlab
+       // System.out.println("ooooooooooooooo" + posicion.size());
+        //System.out.println("uuuuuuuuuuuuuu" + picos.size()); // comparar que hay 24 picos en matlab
     }
 
-    public void negativos(){
+    public void negativos() {
         ArrayList picosTem = new ArrayList();
         ArrayList posicionTem = new ArrayList();
         matrizPicos = new ArrayList();
         matrizPos = new ArrayList();
-        for (int x = 0; x<(picos.size()-1); x++){
+        for (int x = 0; x < (picos.size() - 1); x++) {
 
-            if ((float)picos.get(x)>0f && (float)picos.get(x+1)>0f){
+            if ((float) picos.get(x) > 0f && (float) picos.get(x + 1) > 0f) {
 
                 picosTem.add(picos.get(x));
                 posicionTem.add(posicion.get(x));
-                System.out.println("aaaaaaaaaaaaa" + picos.get(x));
-            }
-            else if((float)picos.get(x)>0f && (float)picos.get(x+1)<0f)
-            {
+               // System.out.println("aaaaaaaaaaaaa" + picos.get(x));
+            } else if ((float) picos.get(x) > 0f && (float) picos.get(x + 1) < 0f) {
                 picosTem.add(picos.get(x));
                 posicionTem.add(posicion.get(x));
-                System.out.println("eeeeeeeeeeee" + picos.get(x));
+                //System.out.println("eeeeeeeeeeee" + picos.get(x));
 
                 matrizPicos.add(picosTem);
                 picosTem = new ArrayList();
                 matrizPos.add(posicionTem);
                 posicionTem = new ArrayList();
             }
-            if(x == (picos.size()-2 )&& (float)picos.get(x+1)>0f)
-            {
-                picosTem.add(picos.get(x+1));
-                posicionTem.add(posicion.get(x+1));
+            if (x == (picos.size() - 2) && (float) picos.get(x + 1) > 0f) {
+                picosTem.add(picos.get(x + 1));
+                posicionTem.add(posicion.get(x + 1));
 
-                System.out.println("iiiiiiiiiii" + picos.get(x+1));
+               //System.out.println("iiiiiiiiiii" + picos.get(x + 1));
                 matrizPicos.add(picosTem);
                 matrizPos.add(posicionTem);
             }
         }
     }
 
-    public void prueba (){
+    public void prueba() {
         System.out.println("siiiiiiiiiiiiiiiii" + matrizPicos.size()); //total de picos
         System.out.println("nooooooooooooooooo" + matrizPos.size());
     }
@@ -335,8 +337,8 @@ public class Algoritmos {
     public int maxArray(ArrayList arrayListPicos, ArrayList arrayListPosicion) {//maximos de cualquier arreglo arr
         int i;
         float max = 0f;
-        int posicion=0;
-        if((float)arrayListPicos.get(0)>0f) {
+        int posicion = 0;
+        if ((float) arrayListPicos.get(0) > 0f) {
 
             for (i = 0; i < arrayListPicos.size(); i++) {
                 if ((float) arrayListPicos.get(i) > max) {
@@ -345,8 +347,7 @@ public class Algoritmos {
                 }
             }
             System.out.println("posicion positiva" + posicion);
-        }
-        else {
+        } else {
             for (i = 0; i < arrayListPicos.size(); i++) {
                 if ((float) arrayListPicos.get(i) < max) {
                     max = (float) arrayListPicos.get(i);
@@ -367,24 +368,26 @@ public class Algoritmos {
         posicionesMin = new ArrayList();
         //hacer otro arreglo positivo y negativo
 
-        for( i = 0; i<matrizShimPicosPositivos.size(); i++){
-            posicionesMax.add( maxArray((ArrayList) matrizShimPicosPositivos.get(i), (ArrayList) matrizShimPosPositivos.get(i)));
+        for (i = 0; i < matrizShimPicosPositivos.size(); i++) {
+            posicionesMax.add(maxArray((ArrayList) matrizShimPicosPositivos.get(i), (ArrayList) matrizShimPosPositivos.get(i)));
+            //System.out.println("POSICIONES MAX" + posicionesMax);
         }
 
-        for ( i=0; i<posicionesMax.size(); i++){
-            System.out.println("pppositivas"+posicionesMax.get(i)); // posiciones totales donde se encuentran los picos
+        for (i = 0; i < posicionesMax.size(); i++) {
+            //System.out.println("pppositivas" + String.valueOf(posicionesMax.get(i))); // posiciones totales donde se encuentran los
+            Log.e("VALORES MAX", ""+posicionesMax.get(i));
         }
 
-        for( i = 0; i<matrizShimPicosNegativos.size(); i++){
-            posicionesMin.add( maxArray((ArrayList) matrizShimPicosNegativos.get(i), (ArrayList) matrizShimPosNegativos.get(i)));
+        for (i = 0; i < matrizShimPicosNegativos.size(); i++) {
+            posicionesMin.add(maxArray((ArrayList) matrizShimPicosNegativos.get(i), (ArrayList) matrizShimPosNegativos.get(i)));
         }
-        for ( i=0; i<posicionesMin.size(); i++){
-            System.out.println("ppnegativos"+posicionesMin.get(i)); // posiciones totales donde se encuentran los picos
+        for (i = 0; i < posicionesMin.size(); i++) {
+            System.out.println("ppnegativos" + posicionesMin.get(i)); // posiciones totales donde se encuentran los picos
         }
 
     }
 
-
+/* normalizado original----------------------------
     private float[] normalizar(float[] arr) {//normaliza cualquier arreglo
         int i;
         float max = maximos(arr);
@@ -403,14 +406,47 @@ public class Algoritmos {
         }
         return nx;
     }
+    -----------------------------------------------*/
+
+//prueba normalizado
+
+
+    private float[] normalizar(float[] arr) {//normaliza cualquier arreglo
+        int i, j, l;
+        float[] buffer = new float[1300];
+        float[] almacennormalizado = new float[arr.length];
+        for (i = 0; i < arr.length / 1300; i++) {
+
+            for (j = 0; j < 1300; j++) {
+                buffer[j] = arr[i * 1300 + j];
+
+            }
+            float max = maximos(buffer);
+            float maxNeg = maximosNegativos(buffer);//este metodo solo sirve para normalizar la parte negativa
+            System.out.println("zzzzzzzz" + max);
+            float[] nx = new float[buffer.length];
+            for (l = 0; l < buffer.length; l++) {
+                if (buffer[l] > 0) {
+
+                    almacennormalizado[i * 1300 + l] = buffer[l] / max;
+                } else {
+                    almacennormalizado[i * 1300 + l] = buffer[l] / -maxNeg;
+                }
+            }
+
+            Log.e("VALOR DE NORM", "" + almacennormalizado);
+        }
+        return almacennormalizado;
+
+
+    }
+
 
     private float maximosNegativos(float[] arr) {//maximos de cualquier arreglo arr
         int i;
         float max = 0f;
-        for (i = 0; i < arr.length; i++)
-        {
-            if (arreglo[i]<max)
-            {
+        for (i = 0; i < arr.length; i++) {
+            if (arreglo[i] < max) {
                 max = arreglo[i];
             }
 
@@ -418,8 +454,7 @@ public class Algoritmos {
         return max;
     }
 
-    public void restaPicos()
-    {
+    public void restaPicos() {
         int i;
         float resta1Tem, resta2Tem;
 
@@ -427,80 +462,80 @@ public class Algoritmos {
         float microSeg = 22.675f;
 
 //resta de los puntos para hallar los periodos
-        for (i=0; i<posicionesMax.size()-1; i++)
-        {
-            resta1Tem =(int)posicionesMax.get(i+1);
-            resta2Tem=(int)posicionesMax.get(i); // se esta multiplicando cada picos por 22.675 x e(-6) porque esto equivale al valor de una muestra en microsegundos
-            restaPi.add((resta1Tem*microSeg)-(resta2Tem*microSeg));
+        for (i = 0; i < posicionesMax.size() - 1; i++) {
+            resta1Tem = (int) posicionesMax.get(i + 1);
+            resta2Tem = (int) posicionesMax.get(i); // se esta multiplicando cada picos por 22.675 x e(-6) porque esto equivale al valor de una muestra en microsegundos
+            restaPi.add((resta1Tem * microSeg) - (resta2Tem * microSeg));
+           // Log.e("PICOS MAS", ""+restaPi);
 
         }
-        System.out.println("restapicos"+restaPi); // muestra los periodos calculados
+        System.out.println("restapicos" + restaPi); // muestra los periodos calculados
 
-        for(i=0; i<restaPi.size()-1; i++)
-        {
-            Suma= Suma + (Math.abs((float)restaPi.get(i+1) - (float)restaPi.get(i)));
-            System.out.println("Sumaaaaaaaa+"+Suma);
+        for (i = 0; i < restaPi.size() - 1; i++) {
+            Suma = Suma + (Math.abs((float) restaPi.get(i + 1) - (float) restaPi.get(i)));
+            System.out.println("Sumaaaaaaaa+" + Suma);
         }
-        Jitta = Suma/restaPi.size()-1; //resultado Jitta
+        Jitta = Suma / restaPi.size() - 1; //resultado Jitta
 
-        System.out.println("Jittaaaa"+Jitta);
+        System.out.println("Jittaaaa" + Jitta);
 
     }
+
     // frecuencia fundamental
     public void frecuencia()
-    {
-        int i;
-        float frec=0;
-        float frec1=0;
-        Log.e("Tamaño de restaPi", ""+restaPi.size());
 
-        for (i=0; i<restaPi.size(); i++){
-            frec =  1/(float)restaPi.get(i);
-            frec1 = frec*1000000;
+    {
+        datosFrecuencia = new ArrayList();
+        int i;
+        float frec = 0;
+        float frec1 = 0;
+        frecFund = 0;
+        Log.e("Tamaño de restaPi", "" + restaPi.size());
+
+        for (i = 0; i < restaPi.size(); i++) {
+            frec = 1 / (float) restaPi.get(i);
+            frec1 = frec * 1000000;
             datosFrecuencia.add(frec1);
             frecFund = frecFund + frec1;
-            System.out.println("frecuencia"+frec1);
+            System.out.println("frecuencia" + frec1);
         }
-        this.frecFund = frecFund/restaPi.size(); // resultado de frecuencia fundamental
+        this.frecFund = frecFund / restaPi.size(); // resultado de frecuencia fundamental
 
     }
 
-    public void par2()
-    {
+    public void par2() {
         int i;
-        float Suma2=0f;
+        float Suma2 = 0f;
 
 
-        for(i=0; i<restaPi.size(); i++)
-        {
-            Suma2= Suma2 + (float)restaPi.get(i);
-            System.out.println("Suma"+Suma2);
+        for (i = 0; i < restaPi.size(); i++) {
+            Suma2 = Suma2 + (float) restaPi.get(i);
+            System.out.println("Suma" + Suma2);
         }
 
-        TemPeriodos =(Suma2/restaPi.size());
-        Jitt = (Jitta /TemPeriodos)*100; //resultado Jitt
-        System.out.println("Jittttttt"+Jitt);
+        TemPeriodos = (Suma2 / restaPi.size());
+        Jitt = (Jitta / TemPeriodos) * 100; //resultado Jitt
+        System.out.println("Jittttttt" + Jitt);
     }
 
-    public void par3()
-    {
+    public void par3() {
         int k;
-        float Suma3=0f;
+        float Suma3 = 0f;
         float sumaRAP;
 
-        for (k = 1; k < restaPi.size()-1; k++)//
+        for (k = 1; k < restaPi.size() - 1; k++)//
         {
-            Suma3 = Suma3 +  Math.abs((float)restaPi.get(k) - ((float)restaPi.get(k) + ((float)restaPi.get(k-1) + (float)restaPi.get(k+1))/3));
+            Suma3 = Suma3 + Math.abs((float) restaPi.get(k) - ((float) restaPi.get(k) + ((float) restaPi.get(k - 1) + (float) restaPi.get(k + 1)) / 3));
         }
 
-        sumaRAP = Suma3/restaPi.size()-1;
-        RAP = (sumaRAP/TemPeriodos);//resultado rap *100
-        System.out.println("RAPPPPPPP"+RAP);
+        sumaRAP = Suma3 / restaPi.size() - 1;
+        RAP = (sumaRAP / TemPeriodos);//resultado rap *100
+        System.out.println("RAPPPPPPP" + RAP);
     }
 
     // empieza el metodo para calcular las amplitudes del Shimmer
     // escoger todos los puntos positivos y negativos
-    public void buscarPicosNeg(){
+    public void buscarPicosNeg() {
 
         ArrayList picosTemShim = new ArrayList();
         ArrayList posicionTemShim = new ArrayList();
@@ -512,99 +547,93 @@ public class Algoritmos {
         picosTemShim.add(picos.get(0));
         posicionTemShim.add(posicion.get(0));
 
-        for (int x = 1; x<(picos.size()); x++) {
-            if((float)picos.get(x)>0 && (float)picos.get(x-1)>0){
+        for (int x = 1; x < (picos.size()); x++) {
+            if ((float) picos.get(x) > 0 && (float) picos.get(x - 1) > 0) {
                 picosTemShim.add(picos.get(x));
                 posicionTemShim.add(posicion.get(x));
-            }
-
-            else if((float)picos.get(x)>0 && (float)picos.get(x-1)<0){
+            } else if ((float) picos.get(x) > 0 && (float) picos.get(x - 1) < 0) {
                 matrizShimPicosNegativos.add(picosTemShim);
                 matrizShimPosNegativos.add(posicionTemShim);
                 picosTemShim = new ArrayList(); // se crea nuevo arreglo
-                posicionTemShim =new ArrayList();
+                posicionTemShim = new ArrayList();
 
                 picosTemShim.add(picos.get(x));
                 posicionTemShim.add(posicion.get(x));
 
-            }
-            else if((float)picos.get(x)<0 && (float)picos.get(x-1)>0){
+            } else if ((float) picos.get(x) < 0 && (float) picos.get(x - 1) > 0) {
                 matrizShimPicosPositivos.add(picosTemShim);
                 matrizShimPosPositivos.add(posicionTemShim);
                 picosTemShim = new ArrayList(); // se crea nuevo arreglo
-                posicionTemShim =new ArrayList();
+                posicionTemShim = new ArrayList();
 
                 picosTemShim.add(picos.get(x));
                 posicionTemShim.add(posicion.get(x));
 
-            }
-
-            else{
+            } else {
                 picosTemShim.add(picos.get(x));
                 posicionTemShim.add(posicion.get(x));
             }
         }
-        System.out.println("primero  "+matrizShimPicosNegativos.size());
-        System.out.println("segundo  "+matrizShimPosNegativos.size());
-        System.out.println("tercero  "+matrizShimPosPositivos.size());
-        System.out.println("cuarto  "+matrizShimPicosPositivos.size());
+        System.out.println("primero  " + matrizShimPicosNegativos.size());
+        System.out.println("segundo  " + matrizShimPosNegativos.size());
+        System.out.println("tercero  " + matrizShimPosPositivos.size());
+        System.out.println("cuarto  " + matrizShimPicosPositivos.size());
     }
 
-    public void amplitudes(){
+    public void amplitudes() {
 
         float Resta = 0;
-        float Resta2= 0;
+        float Resta2 = 0;
 
-        Amp= new ArrayList();
-        for (int i = 0; i<posicionesMax.size()-1; i++) {
-            Amp.add(arreglo[(int)posicionesMax.get(i)]-arreglo[(int)posicionesMin.get(i)]);
-            int x= Integer.parseInt(posicionesMax.get(i).toString());
-            System.out.println("Amplitttttt"+posicionesMax.get(i).toString());
-            System.out.println("Ampli"+Amp);
-            System.out.println("otrooooo"+arreglo[(int)posicionesMax.get(i)]);
-            System.out.println("esteeeee"+arreglo[(int)posicionesMin.get(i)]);
+        Amp = new ArrayList();
+        for (int i = 0; i < posicionesMax.size() - 1; i++) {
+            Amp.add(arreglo[(int) posicionesMax.get(i)] - arreglo[(int) posicionesMin.get(i)]);
+            int x = Integer.parseInt(posicionesMax.get(i).toString());
+            System.out.println("Amplitttttt" + posicionesMax.get(i).toString());
+            System.out.println("Ampli" + Amp);
+            System.out.println("otrooooo" + arreglo[(int) posicionesMax.get(i)]);
+            System.out.println("esteeeee" + arreglo[(int) posicionesMin.get(i)]);
 
         }
 
-        for (int i= 0; i<Amp.size()-1; i++){
-            Resta= Resta + (Math.abs((float)Amp.get(i) - (float)Amp.get(i+1)));
-            System.out.println("Resta"+Resta);
+        for (int i = 0; i < Amp.size() - 1; i++) {
+            Resta = Resta + (Math.abs((float) Amp.get(i) - (float) Amp.get(i + 1)));
+            System.out.println("Resta" + Resta);
         }
-        ShimArriba = Resta/Amp.size()-1;
+        ShimArriba = Resta / Amp.size() - 1;
 
-        for (int i=0; i<Amp.size();i++){
-            Resta2 = Resta2 + (float)Amp.get(i);
+        for (int i = 0; i < Amp.size(); i++) {
+            Resta2 = Resta2 + (float) Amp.get(i);
         }
-        Resta22=Resta2/Amp.size();
+        Resta22 = Resta2 / Amp.size();
 
-        Shimm = (ShimArriba/Resta2)*100;
-        System.out.println("Shimm"+Shimm);
+        Shimm = (ShimArriba / Resta2) * 100;
+        System.out.println("Shimm" + Shimm);
     }
 
-    public void apq33()
-    {
+    public void apq33() {
         int k;
-        float Suma33=0f;
+        float Suma33 = 0f;
         float sumaApq33;
 
-        for (k = 1; k < Amp.size()-1; k++)//
+        for (k = 1; k < Amp.size() - 1; k++)//
         {
-            Suma33 = Suma33 +  Math.abs((float)Amp.get(k) - ((float)Amp.get(k) + ((float)Amp.get(k-1) + (float)Amp.get(k+1))/3));
+            Suma33 = Suma33 + Math.abs((float) Amp.get(k) - ((float) Amp.get(k) + ((float) Amp.get(k - 1) + (float) Amp.get(k + 1)) / 3));
         }
 
-        sumaApq33 = Suma33/Amp.size()-1;
-        apq3 = (sumaApq33/Resta22)*100;//resultado rap
-        System.out.println("apq3"+apq3);
+        sumaApq33 = Suma33 / Amp.size() - 1;
+        apq3 = (sumaApq33 / Resta22) * 100;//resultado rap
+        System.out.println("apq3" + apq3);
     }
 
     // tiempo maximo de fonacion
 
-    public int ultimospicos()
-    {
-        int ultimop= (int)posicion.get(posicion.size()-1);
-        System.out.println("uluuuu"+ultimop);
+    public int ultimospicos() {
+        int ultimop = (int) posicion.get(posicion.size() - 1);
+        System.out.println("uluuuu" + ultimop);
 
         return ultimop;
 
     }
+
 }

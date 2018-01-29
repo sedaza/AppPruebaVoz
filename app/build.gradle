@@ -24,10 +24,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile files('libs/jtransforms-2.4.jar')
     compile files('GraphView-4.2.1.jar')
-    compile files('libs/signalFilter.jar')
-    compile files('libs/TarsosDSP-Android-2.0-bin.jar')
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'
     compile 'com.github.satyan:sugar:1.5'
