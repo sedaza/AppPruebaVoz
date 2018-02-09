@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main_fonetograma_pro"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -16,60 +16,146 @@
     <TableLayout
         android:id="@+id/tableBotones"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.66"
-        android:stretchColumns="*"
-        >
+        android:layout_height="wrap_content"
+        android:stretchColumns="*">
+
         <TableRow>
-        <Button
-            android:id="@+id/buttonEmpezar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=" grabación" />
 
             <Button
+                android:id="@+id/buttonEmpezar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="startRecording"
+                android:text=" grabación" />
+
+            <Button
+                android:layout_span="2"
                 android:id="@+id/buttonReproducir"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="play"
                 android:text="Reproducir " />
 
         </TableRow>
-        <TableRow>
+
+        <TableRow
+            android:layout_marginBottom="10dp">
+
             <Button
+                android:layout_span="3"
                 android:id="@+id/buttonGraficar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="graficar" />
+                android:onClick="btGraficar"
+                android:text="procesar" />
 
-            <Button
-                android:id="@+id/buttonSiguiente"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="siguiente" />
+
         </TableRow>
+
+        <TableRow
+            android:layout_marginBottom="10dp">
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:text="F0:"/>
+            <TextView
+                android:id="@+id/tvF0"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:textSize="22sp"
+                android:text="0"/>
+            <TextView
+                android:id="@+id/Hz"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:textSize="22sp"
+                android:text="Hz"/>
+
+        </TableRow>
+        <TableRow
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:text="dB MINIMO:"/>
+            <TextView
+                android:id="@+id/tvdBmin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:textSize="22sp"
+                android:text="0"/>
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:textSize="22sp"
+                android:text="dB's"/>
+
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:text="dB MAXIMO:"/>
+            <TextView
+                android:id="@+id/tvdBmax"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:textSize="22sp"
+                android:text="0"/>
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:textSize="22sp"
+                android:text="dB's"/>
+
+        </TableRow>
+
 
     </TableLayout>
 
-    <com.jjoe64.graphview.GraphView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.30"
-        android:id="@+id/graphViewFonetopro"
-        android:layout_alignParentBottom="true" />
 
 
+
+    <!--   <com.jjoe64.graphview.GraphView
+           android:layout_width="match_parent"
+           android:layout_height="0dp"
+           android:layout_weight="1.30"
+           android:id="@+id/graphView"
+           android:layout_alignParentBottom="true" />
+
+   -->
 
 
 
     <TableLayout
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.57">
+        android:layout_height="wrap_content"
+        >
         <HorizontalScrollView>
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
 
                 <Button
                     android:id="@+id/doo2"
@@ -77,7 +163,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@color/teclaspianoblanco"
-                    android:text="do2" />
+                    android:text="do2"/>
+
+
 
                 <Button
                     android:id="@+id/stdo2"
@@ -87,11 +175,14 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="do#2"
                     android:background="@color/teclaspianonegro"/>
+
+
+
                 <Button
                     android:id="@+id/re2"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="80dp"
+                    android:layout_height="match_parent"
                     android:text="re2"
                     android:background="@color/teclaspianoblanco"/>
 
@@ -104,6 +195,8 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="re#2"
                     android:background="@color/teclaspianonegro"/>
+
+
                 <Button
                     android:id="@+id/mi2"
                     android:layout_width="0dp"
@@ -112,6 +205,8 @@
                     android:text="mi2"
                     android:layout_marginRight="4dp"
                     android:background="@color/teclaspianoblanco"/>
+
+
                 <Button
                     android:id="@+id/fa2"
                     android:layout_width="0dp"
@@ -119,6 +214,7 @@
                     android:layout_height="match_parent"
                     android:text="fa2"
                     android:background="@color/teclaspianoblanco"/>
+
 
                 <Button
                     android:id="@+id/stfa2"
@@ -128,6 +224,8 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="fa#2"
                     android:background="@color/teclaspianonegro"/>
+
+
                 <Button
                     android:id="@+id/sol2"
                     android:layout_width="0dp"
@@ -135,6 +233,9 @@
                     android:layout_height="match_parent"
                     android:text="sol2"
                     android:background="@color/teclaspianoblanco"/>
+
+
+
 
                 <Button
                     android:id="@+id/stsol2"
@@ -145,6 +246,8 @@
                     android:text="sol#2"
                     android:background="@color/teclaspianonegro"/>
 
+
+
                 <Button
                     android:id="@+id/la2"
                     android:layout_width="0dp"
@@ -152,6 +255,7 @@
                     android:layout_height="match_parent"
                     android:text="la2"
                     android:background="@color/teclaspianoblanco"/>
+
 
                 <Button
                     android:id="@+id/stla2"
@@ -161,6 +265,8 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="la#2"
                     android:background="@color/teclaspianonegro"/>
+
+
                 <Button
                     android:id="@+id/si2"
                     android:layout_width="0dp"
@@ -169,6 +275,7 @@
                     android:text="si2"
                     android:layout_marginRight="4dp"
                     android:background="@color/teclaspianoblanco"/>
+
 
                 <!-- ...................................-->
 
@@ -181,6 +288,10 @@
                     android:layout_height="match_parent"
                     android:text="do3"
                     android:background="@color/teclaspianoblanco"/>
+
+
+
+
                 <Button
                     android:id="@+id/stdo3"
                     android:layout_width="0dp"
@@ -189,6 +300,8 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="do#3"
                     android:background="@color/teclaspianonegro"/>
+
+
                 <Button
                     android:id="@+id/re3"
                     android:layout_width="0dp"
@@ -196,6 +309,7 @@
                     android:layout_height="80dp"
                     android:text="re3"
                     android:background="@color/teclaspianoblanco"/>
+
 
 
                 <Button
@@ -206,6 +320,7 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="re#3"
                     android:background="@color/teclaspianonegro"/>
+
                 <Button
                     android:id="@+id/mi3"
                     android:layout_width="0dp"
@@ -214,6 +329,8 @@
                     android:text="mi3"
                     android:layout_marginRight="4dp"
                     android:background="@color/teclaspianoblanco"/>
+
+
                 <Button
                     android:id="@+id/fa3"
                     android:layout_width="0dp"
@@ -221,6 +338,7 @@
                     android:layout_height="match_parent"
                     android:text="fa3"
                     android:background="@color/teclaspianoblanco"/>
+
 
                 <Button
                     android:id="@+id/stfa3"
@@ -230,6 +348,8 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="fa#3"
                     android:background="@color/teclaspianonegro"/>
+
+
                 <Button
                     android:id="@+id/sol3"
                     android:layout_width="0dp"
@@ -237,6 +357,7 @@
                     android:layout_height="match_parent"
                     android:text="sol3"
                     android:background="@color/teclaspianoblanco"/>
+
 
                 <Button
                     android:id="@+id/stsol3"
@@ -247,6 +368,7 @@
                     android:text="sol#3"
                     android:background="@color/teclaspianonegro"/>
 
+
                 <Button
                     android:id="@+id/la3"
                     android:layout_width="0dp"
@@ -254,6 +376,7 @@
                     android:layout_height="match_parent"
                     android:text="la3"
                     android:background="@color/teclaspianoblanco"/>
+
 
                 <Button
                     android:id="@+id/stla3"
@@ -263,6 +386,8 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="la#3"
                     android:background="@color/teclaspianonegro"/>
+
+
                 <Button
                     android:id="@+id/si3"
                     android:layout_width="0dp"
@@ -271,6 +396,7 @@
                     android:text="si3"
                     android:layout_marginRight="4dp"
                     android:background="@color/teclaspianoblanco"/>
+
 
                 <!-- ...................................-->
 
@@ -283,6 +409,8 @@
                     android:layout_height="match_parent"
                     android:text="do4"
                     android:background="@color/teclaspianoblanco"/>
+
+
                 <Button
                     android:id="@+id/stdo4"
                     android:layout_width="0dp"
@@ -291,6 +419,8 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="do#4"
                     android:background="@color/teclaspianonegro"/>
+
+
                 <Button
                     android:id="@+id/re4"
                     android:layout_width="0dp"
@@ -298,6 +428,7 @@
                     android:layout_height="80dp"
                     android:text="re4"
                     android:background="@color/teclaspianoblanco"/>
+
 
 
                 <Button
@@ -308,6 +439,8 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="re#4"
                     android:background="@color/teclaspianonegro"/>
+
+
                 <Button
                     android:id="@+id/mi4"
                     android:layout_width="0dp"
@@ -316,6 +449,8 @@
                     android:text="mi4"
                     android:layout_marginRight="4dp"
                     android:background="@color/teclaspianoblanco"/>
+
+
                 <Button
                     android:id="@+id/fa4"
                     android:layout_width="0dp"
@@ -323,6 +458,7 @@
                     android:layout_height="match_parent"
                     android:text="fa4"
                     android:background="@color/teclaspianoblanco"/>
+
 
                 <Button
                     android:id="@+id/stfa4"
@@ -332,6 +468,8 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="fa#4"
                     android:background="@color/teclaspianonegro"/>
+
+
                 <Button
                     android:id="@+id/sol4"
                     android:layout_width="0dp"
@@ -339,6 +477,7 @@
                     android:layout_height="match_parent"
                     android:text="sol4"
                     android:background="@color/teclaspianoblanco"/>
+
 
                 <Button
                     android:id="@+id/stsol4"
@@ -349,6 +488,8 @@
                     android:text="sol#4"
                     android:background="@color/teclaspianonegro"/>
 
+
+
                 <Button
                     android:id="@+id/la4"
                     android:layout_width="0dp"
@@ -356,6 +497,7 @@
                     android:layout_height="match_parent"
                     android:text="la3"
                     android:background="@color/teclaspianoblanco"/>
+
 
                 <Button
                     android:id="@+id/stla4"
@@ -365,6 +507,8 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="la#4"
                     android:background="@color/teclaspianonegro"/>
+
+
                 <Button
                     android:id="@+id/si4"
                     android:layout_width="0dp"
@@ -373,6 +517,7 @@
                     android:text="si3"
                     android:layout_marginRight="4dp"
                     android:background="@color/teclaspianoblanco"/>
+
 
 
                 <!-- ...................................-->
@@ -386,6 +531,8 @@
                     android:layout_height="match_parent"
                     android:text="do5"
                     android:background="@color/teclaspianoblanco"/>
+
+
                 <Button
                     android:id="@+id/stdo5"
                     android:layout_width="0dp"
@@ -394,6 +541,8 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="do#5"
                     android:background="@color/teclaspianonegro"/>
+
+
                 <Button
                     android:id="@+id/re5"
                     android:layout_width="0dp"
@@ -401,6 +550,7 @@
                     android:layout_height="80dp"
                     android:text="re5"
                     android:background="@color/teclaspianoblanco"/>
+
 
 
                 <Button
@@ -411,6 +561,8 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="re#5"
                     android:background="@color/teclaspianonegro"/>
+
+
                 <Button
                     android:id="@+id/mi5"
                     android:layout_width="0dp"
@@ -419,6 +571,7 @@
                     android:text="mi5"
                     android:layout_marginRight="4dp"
                     android:background="@color/teclaspianoblanco"/>
+
                 <Button
                     android:id="@+id/fa5"
                     android:layout_width="0dp"
@@ -426,6 +579,7 @@
                     android:layout_height="match_parent"
                     android:text="fa5"
                     android:background="@color/teclaspianoblanco"/>
+
 
                 <Button
                     android:id="@+id/stfa5"
@@ -435,6 +589,8 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="fa#5"
                     android:background="@color/teclaspianonegro"/>
+
+
                 <Button
                     android:id="@+id/sol5"
                     android:layout_width="0dp"
@@ -442,6 +598,7 @@
                     android:layout_height="match_parent"
                     android:text="sol5"
                     android:background="@color/teclaspianoblanco"/>
+
 
                 <Button
                     android:id="@+id/stsol5"
@@ -452,6 +609,7 @@
                     android:text="sol#5"
                     android:background="@color/teclaspianonegro"/>
 
+
                 <Button
                     android:id="@+id/la5"
                     android:layout_width="0dp"
@@ -459,6 +617,7 @@
                     android:layout_height="match_parent"
                     android:text="la5"
                     android:background="@color/teclaspianoblanco"/>
+
 
                 <Button
                     android:id="@+id/stla5"
@@ -468,6 +627,8 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="la#5"
                     android:background="@color/teclaspianonegro"/>
+
+
                 <Button
                     android:id="@+id/si5"
                     android:layout_width="0dp"
@@ -476,6 +637,7 @@
                     android:text="si5"
                     android:layout_marginRight="4dp"
                     android:background="@color/teclaspianoblanco"/>
+
 
 
                 <!-- ...................................-->
@@ -488,6 +650,8 @@
                     android:layout_height="match_parent"
                     android:text="do6"
                     android:background="@color/teclaspianoblanco"/>
+
+
                 <Button
                     android:id="@+id/stdo6"
                     android:layout_width="0dp"
@@ -496,6 +660,8 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="do#6"
                     android:background="@color/teclaspianonegro"/>
+
+
                 <Button
                     android:id="@+id/re6"
                     android:layout_width="0dp"
@@ -503,6 +669,7 @@
                     android:layout_height="80dp"
                     android:text="re6"
                     android:background="@color/teclaspianoblanco"/>
+
 
 
                 <Button
@@ -513,6 +680,8 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="re#6"
                     android:background="@color/teclaspianonegro"/>
+
+
                 <Button
                     android:id="@+id/mi6"
                     android:layout_width="0dp"
@@ -521,6 +690,8 @@
                     android:text="mi6"
                     android:layout_marginRight="4dp"
                     android:background="@color/teclaspianoblanco"/>
+
+
                 <Button
                     android:id="@+id/fa6"
                     android:layout_width="0dp"
@@ -528,6 +699,7 @@
                     android:layout_height="match_parent"
                     android:text="fa6"
                     android:background="@color/teclaspianoblanco"/>
+
 
                 <Button
                     android:id="@+id/stfa6"
@@ -537,6 +709,8 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="fa#6"
                     android:background="@color/teclaspianonegro"/>
+
+
                 <Button
                     android:id="@+id/sol6"
                     android:layout_width="0dp"
@@ -544,6 +718,7 @@
                     android:layout_height="match_parent"
                     android:text="sol6"
                     android:background="@color/teclaspianoblanco"/>
+
 
                 <Button
                     android:id="@+id/stsol6"
@@ -554,6 +729,7 @@
                     android:text="sol#6"
                     android:background="@color/teclaspianonegro"/>
 
+
                 <Button
                     android:id="@+id/la6"
                     android:layout_width="0dp"
@@ -561,6 +737,7 @@
                     android:layout_height="match_parent"
                     android:text="la6"
                     android:background="@color/teclaspianoblanco"/>
+
 
                 <Button
                     android:id="@+id/stla6"
@@ -570,6 +747,8 @@
                     android:textColor="@color/teclaspianoblanco"
                     android:text="la#6"
                     android:background="@color/teclaspianonegro"/>
+
+
                 <Button
                     android:id="@+id/si6"
                     android:layout_width="0dp"
@@ -580,37 +759,59 @@
                     android:background="@color/teclaspianoblanco"/>
 
 
+
             </TableRow>
+
+
+
         </HorizontalScrollView>
 
     </TableLayout>
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text="TIEMPO PRUEBA "/>
+
+            <TextView
+                android:id="@+id/tvTiempo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text=""/>
+
+            <TextView
+                android:id="@+id/tvPrueba"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:text=""/>
+
+
+
+
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TableRow>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                android:text="F0:"/>
-            <TextView
-                android:id="@+id/tvF0"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="22sp"
-                android:text="0"/>
-            <Button
-                android:id="@+id/buttonResultado"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Resultados " />
 
+        <Button
+            android:id="@+id/bSiguiente3"
+            android:layout_marginTop="30dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Resultados " />
 
-        </TableRow>
 
     </TableLayout>
 

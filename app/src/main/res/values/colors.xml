@@ -9,4 +9,10 @@
     <color name="teclaspianoblanco">#ffffff</color>
     <color name="fondopiano">#e9eacb</color>
     <color name="teclasinipiano">#e4e4e4</color>
+    <color name="colorok">#8bff76</color>
+    <color name="colorok2">#62dc4c</color>
+    <color name="colormal">#ff4447</color>
+    <color name="colormal2">#e22a2d</color>
+
+
 </resources>

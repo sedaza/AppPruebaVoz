@@ -56,6 +56,7 @@ public class MainFonetograma extends AppCompatActivity {
             public void onClick(View view) {
                 sounPool.play(sound_re , 1, 1, 0, 0, 1);
 
+
             }
         });
         mi.setOnClickListener(new View.OnClickListener() {

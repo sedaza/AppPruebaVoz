@@ -25,8 +25,8 @@ public class Algoritmos {
     private ArrayList matrizPos;
     private ArrayList picos;//declaracion
     private ArrayList posicion;
-    public ArrayList posicionesMax;
-    public ArrayList posicionesMin;
+    public static ArrayList posicionesMax;
+    public static ArrayList posicionesMin;
     private ArrayList restaPi;
     private ArrayList matrizShimPicosPositivos;//reformo array
     private ArrayList matrizShimPosPositivos;
