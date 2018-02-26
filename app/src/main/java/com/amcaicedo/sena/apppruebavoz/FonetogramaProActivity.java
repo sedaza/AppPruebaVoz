@@ -1156,6 +1156,9 @@ public class FonetogramaProActivity extends Activity {
                     case 11:
                         si2.setBackgroundResource(R.color.colorok);
                         break;
+
+
+
                     case 12:
                         doo3.setBackgroundResource(R.color.colorok);
                         break;
@@ -1180,7 +1183,7 @@ public class FonetogramaProActivity extends Activity {
 
                         break;
                     case 19:
-                        sol2.setBackgroundResource(R.color.colorok);
+                        sol3.setBackgroundResource(R.color.colorok);
                         break;
                     case 20:
                         stsol3.setBackgroundResource(R.color.colorok2);
@@ -1195,12 +1198,137 @@ public class FonetogramaProActivity extends Activity {
                     case 23:
                         si3.setBackgroundResource(R.color.colorok);
                         break;
+
+
+
+
+
+                    case 24:
+                        doo4.setBackgroundResource(R.color.colorok);
+                        break;
+                    case 25:
+                        stdo4.setBackgroundResource(R.color.colorok2);
+                        break;
+                    case 26:
+                        re4.setBackgroundResource(R.color.colorok);
+                        break;
+                    case  27:
+                        stre4.setBackgroundResource(R.color.colorok2);
+                        break;
+                    case 28:
+                        mi4.setBackgroundResource(R.color.colorok);
+                        break;
+                    case 29:
+                        fa4.setBackgroundResource(R.color.colorok);
+                        break;
+
+                    case 30:
+                        stfa4.setBackgroundResource(R.color.colorok2);
+
+                        break;
+                    case 31:
+                        sol4.setBackgroundResource(R.color.colorok);
+                        break;
+                    case 32:
+                        stsol4.setBackgroundResource(R.color.colorok2);
+                        break;
+                    case 33:
+                        la4.setBackgroundResource(R.color.colorok);
+                        break;
+
+                    case 34:
+                        stla4.setBackgroundResource(R.color.colorok2);
+                        break;
+                    case 35:
+                        si4.setBackgroundResource(R.color.colorok);
+                        break;
+
+
+                    case 36:
+                        doo4.setBackgroundResource(R.color.colorok);
+                        break;
+                    case 37:
+                        stdo4.setBackgroundResource(R.color.colorok2);
+                        break;
+                    case 38:
+                        re4.setBackgroundResource(R.color.colorok);
+                        break;
+                    case  39:
+                        stre4.setBackgroundResource(R.color.colorok2);
+                        break;
+                    case 40:
+                        mi4.setBackgroundResource(R.color.colorok);
+                        break;
+                    case 41:
+                        fa4.setBackgroundResource(R.color.colorok);
+                        break;
+                    case 42:
+                        stfa4.setBackgroundResource(R.color.colorok2);
+                        break;
+                    case 43:
+                        sol4.setBackgroundResource(R.color.colorok);
+                        break;
+                    case 44:
+                        stsol4.setBackgroundResource(R.color.colorok2);
+                        break;
+                    case 45:
+                        la4.setBackgroundResource(R.color.colorok);
+                        break;
+                    case 46:
+                        stla4.setBackgroundResource(R.color.colorok2);
+                        break;
+                    case 47:
+                        si4.setBackgroundResource(R.color.colorok);
+                        break;
+
+
+
+                    case 48:
+                        doo5.setBackgroundResource(R.color.colorok);
+                        break;
+                    case 49:
+                        stdo5.setBackgroundResource(R.color.colorok2);
+                        break;
+                    case 50:
+                        re5.setBackgroundResource(R.color.colorok);
+                        break;
+                    case  51:
+                        stre5.setBackgroundResource(R.color.colorok2);
+                        break;
+                    case 52:
+                        mi5.setBackgroundResource(R.color.colorok);
+                        break;
+                    case 53:
+                        fa5.setBackgroundResource(R.color.colorok);
+                        break;
+
+                    case 54:
+                        stfa5.setBackgroundResource(R.color.colorok2);
+
+                        break;
+                    case 55:
+                        sol5.setBackgroundResource(R.color.colorok);
+                        break;
+                    case 56:
+                        stsol5.setBackgroundResource(R.color.colorok2);
+                        break;
+                    case 57:
+                        la5.setBackgroundResource(R.color.colorok);
+                        break;
+
+                    case 58:
+                        stla5.setBackgroundResource(R.color.colorok2);
+                        break;
+                    case 59:
+                        si5.setBackgroundResource(R.color.colorok);
+                        break;
                 }
 
             }else{
                 Toast.makeText(this, "no alcanza la nota", Toast.LENGTH_SHORT).show();
                tvPrueba.setText("NO ALCANZO LA NOTA");
                 switch (indicefoneto) {
+
                     case 0:
                         doo2.setBackgroundResource(R.color.colormal);
                         break;
@@ -1229,23 +1357,189 @@ public class FonetogramaProActivity extends Activity {
                         break;
                     case 8:
                         stsol2.setBackgroundResource(R.color.colormal2);
-
                         break;
                     case 9:
                         la2.setBackgroundResource(R.color.colormal);
                         break;
+
                     case 10:
                         stla2.setBackgroundResource(R.color.colormal2);
                         break;
                     case 11:
                         si2.setBackgroundResource(R.color.colormal);
                         break;
+
+
+
+                    case 12:
+                        doo3.setBackgroundResource(R.color.colormal);
+                        break;
+                    case 13:
+                        stdo3.setBackgroundResource(R.color.colormal2);
+                        break;
+                    case 14:
+                        re3.setBackgroundResource(R.color.colormal);
+                        break;
+                    case  15:
+                        stre3.setBackgroundResource(R.color.colormal2);
+                        break;
+                    case 16:
+                        mi3.setBackgroundResource(R.color.colormal);
+                        break;
+                    case 17:
+                        fa3.setBackgroundResource(R.color.colormal);
+                        break;
+
+                    case 18:
+                        stfa3.setBackgroundResource(R.color.colormal2);
+
+                        break;
+                    case 19:
+                        sol3.setBackgroundResource(R.color.colormal);
+                        break;
+                    case 20:
+                        stsol3.setBackgroundResource(R.color.colormal2);
+                        break;
+                    case 21:
+                        la3.setBackgroundResource(R.color.colormal);
+                        break;
+
+                    case 22:
+                        stla3.setBackgroundResource(R.color.colormal2);
+                        break;
+                    case 23:
+                        si3.setBackgroundResource(R.color.colormal);
+                        break;
+
+
+
+
+
+                    case 24:
+                        doo4.setBackgroundResource(R.color.colormal);
+                        break;
+                    case 25:
+                        stdo4.setBackgroundResource(R.color.colormal2);
+                        break;
+                    case 26:
+                        re4.setBackgroundResource(R.color.colormal);
+                        break;
+                    case  27:
+                        stre4.setBackgroundResource(R.color.colormal2);
+                        break;
+                    case 28:
+                        mi4.setBackgroundResource(R.color.colormal);
+                        break;
+                    case 29:
+                        fa4.setBackgroundResource(R.color.colormal);
+                        break;
+
+                    case 30:
+                        stfa4.setBackgroundResource(R.color.colormal2);
+
+                        break;
+                    case 31:
+                        sol4.setBackgroundResource(R.color.colormal);
+                        break;
+                    case 32:
+                        stsol4.setBackgroundResource(R.color.colormal2);
+                        break;
+                    case 33:
+                        la4.setBackgroundResource(R.color.colormal);
+                        break;
+
+                    case 34:
+                        stla4.setBackgroundResource(R.color.colormal2);
+                        break;
+                    case 35:
+                        si4.setBackgroundResource(R.color.colormal);
+                        break;
+
+
+                    case 36:
+                        doo4.setBackgroundResource(R.color.colormal);
+                        break;
+                    case 37:
+                        stdo4.setBackgroundResource(R.color.colormal2);
+                        break;
+                    case 38:
+                        re4.setBackgroundResource(R.color.colormal);
+                        break;
+                    case  39:
+                        stre4.setBackgroundResource(R.color.colormal2);
+                        break;
+                    case 40:
+                        mi4.setBackgroundResource(R.color.colormal);
+                        break;
+                    case 41:
+                        fa4.setBackgroundResource(R.color.colormal);
+                        break;
+                    case 42:
+                        stfa4.setBackgroundResource(R.color.colormal2);
+                        break;
+                    case 43:
+                        sol4.setBackgroundResource(R.color.colormal);
+                        break;
+                    case 44:
+                        stsol4.setBackgroundResource(R.color.colormal2);
+                        break;
+                    case 45:
+                        la4.setBackgroundResource(R.color.colormal);
+                        break;
+                    case 46:
+                        stla4.setBackgroundResource(R.color.colormal2);
+                        break;
+                    case 47:
+                        si4.setBackgroundResource(R.color.colormal);
+                        break;
+
+
+
+                    case 48:
+                        doo5.setBackgroundResource(R.color.colormal);
+                        break;
+                    case 49:
+                        stdo5.setBackgroundResource(R.color.colormal2);
+                        break;
+                    case 50:
+                        re5.setBackgroundResource(R.color.colormal);
+                        break;
+                    case  51:
+                        stre5.setBackgroundResource(R.color.colormal2);
+                        break;
+                    case 52:
+                        mi5.setBackgroundResource(R.color.colormal);
+                        break;
+                    case 53:
+                        fa5.setBackgroundResource(R.color.colormal);
+                        break;
+
+                    case 54:
+                        stfa5.setBackgroundResource(R.color.colormal2);
+
+                        break;
+                    case 55:
+                        sol5.setBackgroundResource(R.color.colormal);
+                        break;
+                    case 56:
+                        stsol5.setBackgroundResource(R.color.colormal2);
+                        break;
+                    case 57:
+                        la5.setBackgroundResource(R.color.colormal);
+                        break;
+
+                    case 58:
+                        stla5.setBackgroundResource(R.color.colormal2);
+                        break;
+                    case 59:
+                        si5.setBackgroundResource(R.color.colormal);
+                        break;
                 }
 
 
             }
             obtenerdBMin();
-
+            obtenerdBMax();
 
 
         }
@@ -1276,14 +1570,27 @@ public class FonetogramaProActivity extends Activity {
     public void obtenerdBMax(){
         double promedioMax = 0;
         short amplitudeMax = 0;
-        double sumMax = 0;
-        for(int x = 0; x < Algoritmos.posicionesMax.size(); x++){
+        short max = 0;
+        double Min = 0;
+        /*for(int x = 0; x < Algoritmos.posicionesMax.size(); x++){
             sumMax = sumMax + (double)Algoritmos.posicionesMax.get(x);
         }
-        promedioMax = sumMax/Algoritmos.posicionesMax.size();
-        amplitudeMax = (short) (20 * Math.log10((short) promedioMax / 1));
+        promedioMax = sumMax/Algoritmos.posicionesMax.size();*/
+        try{
+            for (int i=0; i<=Algoritmos.posicionesMax.size();i++){
+                amplitudeMax = (short) (20 * Math.log10((short) datosMuestraini.get((Integer) Algoritmos.posicionesMax.get(i))));
+                if (max<amplitudeMax){
+                    max=amplitudeMax;
+                    Log.e("Amplitud MAX Cambio", ""+max);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         dBmax[indicefoneto]=amplitudeMax;
         tvdBmax.setText(""+dBmax[indicefoneto]);
+        System.out.println("Amplitudddddd man" + amplitudeMax);
     }
 
 
@@ -1292,15 +1599,28 @@ public class FonetogramaProActivity extends Activity {
     public void obtenerdBMin(){
         double promedioMin = 0;
         short amplitudeMin = 0;
-        short sumMin = 0;
-        for(int x = 0; x < Algoritmos.posicionesMin.size(); x++){
+        short min = 200;
+        /*for(int x = 0; x < Algoritmos.posicionesMin.size(); x++){
             sumMin = (short) (sumMin + (short)Algoritmos.posicionesMin.get(x));
+        }*/
+        //promedioMin = sumMin/Algoritmos.posicionesMin.size();
+        try{
+            for (int i=0; i<=Algoritmos.posicionesMax.size();i++){
+                amplitudeMin = (short) (20 * Math.log10((short) datosMuestraini.get((Integer) Algoritmos.posicionesMax.get(i))));
+                if (min>amplitudeMin){
+                    min=amplitudeMin;
+                    Log.e("Amplitud MIN Cambio", ""+min);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        promedioMin = sumMin/Algoritmos.posicionesMin.size();
-        //amplitudeMin = (short) (20 * Math.log10((short) promedioMin / 1));
+
+
         //dBmin[indicefoneto]=amplitudeMin;
         //tvdBmin.setText(""+dBmin[indicefoneto]);
         System.out.println("Prommmmmmm min" + promedioMin);
+        System.out.println("Amplitudddddd min" + amplitudeMin);
         //System.out.println("dbmin" + dBmin[indicefoneto]);
         //System.out.println("dbminampli" + amplitudeMin);
     }

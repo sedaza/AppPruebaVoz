@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AppPruebaVoz</string>
+    <string name="app_name">FonoTest</string>
     <string name="nombre">Nombre</string>
     <string name="datos_paciente">DATOS PACIENTE</string>
     <string name="apellido">Apellido</string>
