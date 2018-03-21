@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -84,11 +87,47 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             }
         });
 
-        if(!mayRequestStoragePermission())
-            Toast.makeText(this, "Permisos autorizados", Toast.LENGTH_SHORT).show();
+        if (solicitarPermisos())
+            Toast.makeText(this, "Permisos aceptados", Toast.LENGTH_SHORT).show();
         else
-            Toast.makeText(this, "Permisos NO autorizados", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Permisos NO aceptados", Toast.LENGTH_SHORT).show();
 
+
+    }
+
+    private boolean solicitarPermisos() {
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M){
+            return true;
+        }
+
+        if((checkSelfPermission(RECORD_AUDIO)== PackageManager.PERMISSION_GRANTED)&&
+                (checkSelfPermission(WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED)){
+            return true;
+        }
+
+        if((shouldShowRequestPermissionRationale(RECORD_AUDIO)) ||
+                (shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE))){
+            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE,RECORD_AUDIO},100);
+        }else{
+            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE,RECORD_AUDIO},100);
+        }
+        return false;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode==100){
+            if(grantResults.length==2 && grantResults[0]==PackageManager.PERMISSION_GRANTED
+                    && grantResults[1]==PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this, "Permisos aceptados", Toast.LENGTH_SHORT).show();
+            }else{
+                requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE,RECORD_AUDIO},100);
+                Toast.makeText(this, "Permisos NO aceptados", Toast.LENGTH_SHORT).show();
+            }
+        }
 
     }
 
@@ -127,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         MenuItem searchItem = menu.findItem(R.id.menu_buscador);
 
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setInputType(InputType.TYPE_CLASS_NUMBER);
         searchView.setOnQueryTextListener(this);
 
         MenuItemCompat.setOnActionExpandListener(searchItem, this);
@@ -218,30 +258,4 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         alertDialog.show();
     }
 
-    private boolean mayRequestStoragePermission() {
-
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
-            return true;
-
-        if((checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) && (checkSelfPermission(RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED))
-            return true;
-
-        if((shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) || (shouldShowRequestPermissionRationale(RECORD_AUDIO))){
-            Toast.makeText(getApplicationContext(), "Los permisos son necesarios para poder usar la aplicación",
-                    Toast.LENGTH_LONG).show();
-            /*Snackbar.make(getView(), "Los permisos son necesarios para poder usar la aplicación",
-                    Snackbar.LENGTH_LONG).setAction(android.R.string.ok, new View.OnClickListener() {
-                @TargetApi(Build.VERSION_CODES.M)
-                @Override
-                public void onClick(View v) {
-                    requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, RECORD_AUDIO}, MY_PERMISSIONS);
-                }
-            });*/
-            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, RECORD_AUDIO}, MY_PERMISSIONS);
-        }else{
-            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, RECORD_AUDIO}, MY_PERMISSIONS);
-        }
-
-        return false;
-    }
 }

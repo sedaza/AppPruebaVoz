@@ -96,6 +96,7 @@ public class MainGlissando extends Activity {
     private TextView textView;
 
     public static ArrayList datosAmplitud = new ArrayList();
+    public static  short max = 0;
     public static ArrayList datosAmplitud2 = new ArrayList();
 
     //parametros de audio para hallar fo
@@ -111,6 +112,8 @@ public class MainGlissando extends Activity {
     int BufferElements2Rec = 1024; // want to play 2048 (2K) since 2 bytes we use only 1024
     int BytesPerElement = 2; // 2 bytes in 16bit format
     short [] dataShort;
+    public static ArrayList dBMin =new ArrayList();
+    public static ArrayList dBMax = new ArrayList();
 
     ProgressDialog loading;
 
@@ -273,9 +276,12 @@ public class MainGlissando extends Activity {
 
         obtenerMuestraini();
         /*Double amplitude = 20 * Math.log10(maximos(datosMuestraini) / 1);
-        Log.e("VALOR dB MAXIMOS", ""+amplitude);*/
+        Log.e("VALOR dB MAXIMOS", ""+amplitude);
         System.out.println("DATOS AMPLITUD: " + obtenerdB());
-        //loading.dismiss();
+        //loading.dismiss();*/
+        obtenerdB();
+        obtenerdBMax();
+        obtenerdBMin();
     }
 
     //----------------------------
@@ -283,23 +289,76 @@ public class MainGlissando extends Activity {
     public ArrayList obtenerdB(){
         short amplitude = 0;
         float promediodBs = 0.0f;
-        for(int x = 0; x < datosMuestraini.size(); x++){
-
-            if ((short)datosMuestraini.get(x) > 50){
-                amplitude = (short) (20 * Math.log10((short) datosMuestraini.get(x) / 1));
-                datosAmplitud.add(amplitude);
-                Log.e("VALOR dB MAXIMOS", ""+amplitude);
+        for (int i=0; i<=Algoritmos.posicionesMax.size()-1;i++) {
+            amplitude = (short) (20 * Math.log10((short) datosMuestraini.get((Integer) Algoritmos.posicionesMax.get(i))));
+            datosAmplitud.add(amplitude);
+            if (max<amplitude){
+                max=amplitude;
             }
-
+            System.out.println("mAXXXXXXXXXX" + datosAmplitud);
+            Log.e("Amplitud MAXXXXX", ""+datosAmplitud);
         }
-        for(int x = 0; x < datosAmplitud.size()-1; x++) {
-
-            promediodBs=(Float.parseFloat(String.valueOf(datosAmplitud.get(x)))+Float.parseFloat(String.valueOf(datosAmplitud.get(x+1))))/2;
-            datosAmplitud2.add(promediodBs);
 
 
+        return datosAmplitud;
+    }
+    public void obtenerdBMax(){
+        double promedioMax = 0;
+        short amplitudeMax = 0;
+        short max = 0;
+        double Min = 0;
+        /*for(int x = 0; x < Algoritmos.posicionesMax.size(); x++){
+            sumMax = sumMax + (double)Algoritmos.posicionesMax.get(x);
         }
-        return datosAmplitud2;
+        promedioMax = sumMax/Algoritmos.posicionesMax.size();*/
+        try{
+            for (int i=0; i<=Algoritmos.posicionesMax.size();i++){
+                amplitudeMax = (short) (20 * Math.log10((short) datosMuestraini.get((Integer) Algoritmos.posicionesMax.get(i))));
+                if (max<amplitudeMax){
+                    max=amplitudeMax;
+                    Log.e("Amplitud MAX Cambio", ""+max);
+                    dBMax.add(max);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        System.out.println("Amplitudddddd man" + amplitudeMax);
+        //return dBMax;
+    }
+
+
+
+
+    public void obtenerdBMin(){
+        double promedioMin = 0;
+        short amplitudeMin = 0;
+        short min = 200;
+        /*for(int x = 0; x < Algoritmos.posicionesMin.size(); x++){
+            sumMin = (short) (sumMin + (short)Algoritmos.posicionesMin.get(x));
+        }*/
+        //promedioMin = sumMin/Algoritmos.posicionesMin.size();
+        try{
+            for (int i=0; i<=Algoritmos.posicionesMax.size();i++){
+                amplitudeMin = (short) (20 * Math.log10((short) datosMuestraini.get((Integer) Algoritmos.posicionesMax.get(i))));
+                if (min>amplitudeMin){
+                    min=amplitudeMin;
+                    Log.e("Amplitud MIN Cambio", ""+min);
+                     dBMin.add(min);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+        System.out.println("Prommmmmmm min" + promedioMin);
+        System.out.println("Amplitudddddd min" + amplitudeMin);
+        //System.out.println("dbmin" + dBmin[indicefoneto]);
+        //System.out.println("dbminampli" + amplitudeMin);
     }
 
     //MUESTRAS

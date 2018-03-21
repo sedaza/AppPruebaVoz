@@ -104,14 +104,18 @@ public class FonetogramaProActivity extends Activity {
 
         // private XYPlot myXYPlot;
         private int frecuencia;
-        private ArrayList datos = new ArrayList();
-        private ArrayList datosMuestra = new ArrayList();
+        private ArrayList datos;
+        private ArrayList datosMuestra ;
         private ArrayList datosMuestraini = new ArrayList();
         private ArrayList datosMuestrafin = new ArrayList();
+    public static ArrayList dBMin =new ArrayList();
+    public static ArrayList dBMax = new ArrayList();
+
         private Algoritmos al;
-    private int[] dBmax = new int[60];
-    private int[] dBmin  = new int[60];
-    private int[]  Frecuenciafoneto= new int[60];
+    public static int[] dBmax = new int[60];
+    public static int[] dBmin  = new int[60];
+    public static int[]  Frecuenciafoneto= new int[60];
+    public static ArrayList numeroindice =new ArrayList();
     private boolean[] valoracionotas= new boolean[60];
      int indicefoneto;
 
@@ -154,14 +158,32 @@ public class FonetogramaProActivity extends Activity {
         int BufferElements2Rec = 1024; // want to play 2048 (2K) since 2 bytes we use only 1024
         int BytesPerElement = 2; // 2 bytes in 16bit format
         short [] dataShort;
+        short amplitudeMin = 0;
+        short amplitudeMax = 0;
 
         ProgressDialog loading;
+
 
 //sonidos y configuracion notas-------------------------------------------------------------------------
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_fonetograma_pro);
+            bSiguiente33 = (Button) findViewById(R.id.bSiguiente3);
+            bSiguiente33.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent4 = new Intent(FonetogramaProActivity.this, MainResultadosFonetograma.class);
+                    /*intent4.putExtra("frecuencia", al.getFrecFund());
+                    ArrayList dbmin = new ArrayList<String>();
+                    for (int d=0; d<dBMin.size(); d++){
+                        dbmin.add(dBMin.get(d).toString());
+                    }
+                    intent4.putStringArrayListExtra("algoritmos", dbmin);*/
+                    startActivity(intent4);
+                }
+            });
 
             doo2 = (Button) findViewById(R.id.doo2);
             stdo2 = (Button) findViewById(R.id.stdo2);
@@ -943,6 +965,7 @@ public class FonetogramaProActivity extends Activity {
                     indicefoneto=59;
                 }
             });
+            Log.e("indiceeeeee", ""+indicefoneto);
 
             //---------------------------------------------------------------------------------
             //---------------------------------------------------------------------------------
@@ -965,7 +988,7 @@ public class FonetogramaProActivity extends Activity {
                 public void onClick(View v) {
 
 
-                    Intent intent4 = new Intent(FonetogramaProActivity.this, MainResultadoGlissando.class);
+                    Intent intent4 = new Intent(FonetogramaProActivity.this, MainResultadosFonetograma.class);
                     intent4.putExtra("frecuencia", al.getFrecFund());
                     ArrayList frecuenciastring = new ArrayList<String>();
                     for (int d=0; d<al.getDatosFrecuencia().size(); d++){
@@ -995,7 +1018,7 @@ public class FonetogramaProActivity extends Activity {
             if(!file.exists()){
                 file.mkdirs();
             }
-            outputFile = file.getAbsolutePath() + "/" + "AudioFonetograma" + AUDIO_RECORDER_FILE_EXT_WAV;
+            outputFile = file.getAbsolutePath() + "/" + "AudioFonetograma"+ System.currentTimeMillis() + AUDIO_RECORDER_FILE_EXT_WAV;
             return (outputFile);
         }
 
@@ -1020,7 +1043,7 @@ public class FonetogramaProActivity extends Activity {
 
         public void startRecording(View v){
 
-
+            resetVariables();
             recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
                     RECORDER_SAMPLERATE, RECORDER_CHANNELS,
                     RECORDER_AUDIO_ENCODING, bufferSize);
@@ -1038,6 +1061,7 @@ public class FonetogramaProActivity extends Activity {
             }, "AudioRecorder Theard");
             recordingThread.start();
             Frecuenciafoneto[indicefoneto]=valornota;
+            numeroindice.add(indicefoneto);
             Log.e("pocicion frecuencia", ""+Frecuenciafoneto[indicefoneto]);
             startTimer();
 
@@ -1082,7 +1106,7 @@ public class FonetogramaProActivity extends Activity {
         loading.show();*/
             obtenerMuestra();
             al = new Algoritmos(datosMuestra);
-            al.calcular(0.8f);
+            al.calcular(0.4f);
             al.negativos();
             System.out.println("qeeeeeeeeeeeeeeeeeeeeeeeeee");
             float[] nuevoArr = al.getArreglo1();//getArreglo (grafica sin normalizar)
@@ -1115,6 +1139,12 @@ public class FonetogramaProActivity extends Activity {
             //----------------------------------------------------------------------------------------------------------------------
             if (al.getFrecFund()<(valornotafin) && al.getFrecFund()>(valornotaini) ) {
                 tvPrueba.setText("PRUEBA CORRECTA");
+
+                /*---------------------------------------
+                asie es como tiene que ser correcto
+                obtenerdBMin();
+                obtenerdBMax();
+                ----------------------------------------*/
                 Toast.makeText(this, "correcto", Toast.LENGTH_SHORT).show();
                 switch (indicefoneto) {
                     case 0:
@@ -1325,6 +1355,8 @@ public class FonetogramaProActivity extends Activity {
                 }
 
             }else{
+                obtenerdBMin();
+                obtenerdBMax();
                 Toast.makeText(this, "no alcanza la nota", Toast.LENGTH_SHORT).show();
                tvPrueba.setText("NO ALCANZO LA NOTA");
                 switch (indicefoneto) {
@@ -1538,8 +1570,7 @@ public class FonetogramaProActivity extends Activity {
 
 
             }
-            obtenerdBMin();
-            obtenerdBMax();
+
 
 
         }
@@ -1569,7 +1600,7 @@ public class FonetogramaProActivity extends Activity {
         }*/
     public void obtenerdBMax(){
         double promedioMax = 0;
-        short amplitudeMax = 0;
+       // short amplitudeMax = 0;
         short max = 0;
         double Min = 0;
         /*for(int x = 0; x < Algoritmos.posicionesMax.size(); x++){
@@ -1579,26 +1610,46 @@ public class FonetogramaProActivity extends Activity {
         try{
             for (int i=0; i<=Algoritmos.posicionesMax.size();i++){
                 amplitudeMax = (short) (20 * Math.log10((short) datosMuestraini.get((Integer) Algoritmos.posicionesMax.get(i))));
+                Log.e("Amplitud MAX Cambio", ""+amplitudeMax);
                 if (max<amplitudeMax){
                     max=amplitudeMax;
-                    Log.e("Amplitud MAX Cambio", ""+max);
+                    //Log.e("Amplitud MAX Cambio", ""+max);
+
+                    //dBMax.add(max);
                 }
             }
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        dBmax[indicefoneto]=amplitudeMax;
-        tvdBmax.setText(""+dBmax[indicefoneto]);
+        dBmax[indicefoneto]=max;
+        Log.e("indicexxxxxxxxx", ""+indicefoneto);
+        Log.e(" MAX Cambio", ""+dBmax[indicefoneto]);
+        tvdBmax.setText(""+max);
+        imprimdBmax();
         System.out.println("Amplitudddddd man" + amplitudeMax);
+
+      //return dBMax;
     }
 
+     public void imprimdBmax(){
+         for(int h=0; h<dBmax.length; h++){
+
+             System.out.print("primdBmax"+dBmax[h]);}
+
+     }
+    public void imprimdBmin(){
+        for(int h=0; h<dBmin.length; h++){
+
+            System.out.print("primdBmin"+dBmin[h]);}
+
+    }
 
 
 
     public void obtenerdBMin(){
         double promedioMin = 0;
-        short amplitudeMin = 0;
+        //short amplitudeMin = 0;
         short min = 200;
         /*for(int x = 0; x < Algoritmos.posicionesMin.size(); x++){
             sumMin = (short) (sumMin + (short)Algoritmos.posicionesMin.get(x));
@@ -1607,18 +1658,22 @@ public class FonetogramaProActivity extends Activity {
         try{
             for (int i=0; i<=Algoritmos.posicionesMax.size();i++){
                 amplitudeMin = (short) (20 * Math.log10((short) datosMuestraini.get((Integer) Algoritmos.posicionesMax.get(i))));
+                Log.e("Amplitud Min Cambio", ""+amplitudeMin);
                 if (min>amplitudeMin){
                     min=amplitudeMin;
-                    Log.e("Amplitud MIN Cambio", ""+min);
+                    //Log.e("Amplitud MIN Cambio", ""+min);
+                   // dBMin.add(min);
                 }
             }
         }catch (Exception e){
             e.printStackTrace();
         }
 
-
-        //dBmin[indicefoneto]=amplitudeMin;
-        //tvdBmin.setText(""+dBmin[indicefoneto]);
+        Log.e("indicennnnnnnnn", ""+indicefoneto);
+        dBmin[indicefoneto]=min;
+        tvdBmin.setText(""+min);
+        Log.e(" MIN Cambio", ""+dBmin[indicefoneto]);
+        imprimdBmin();
         System.out.println("Prommmmmmm min" + promedioMin);
         System.out.println("Amplitudddddd min" + amplitudeMin);
         //System.out.println("dbmin" + dBmin[indicefoneto]);
@@ -1628,18 +1683,24 @@ public class FonetogramaProActivity extends Activity {
 
     //MUESTRAS
         public void obtenerMuestra(){
-            for (int x = 44100; x<datos.size()-44100; x++){ //inicio ===  int x= 0 ; x=2000            fin ===    x=datos.size()-100 ; x=datos.size()
-                //for (int x = 44100; x<(datos)-44100; x++)
-                datosMuestra.add(datos.get(x));
+             datosMuestra = new ArrayList();
+            try {
+                for (int x = 44100; x<datos.size()-44100; x++){ //inicio ===  int x= 0 ; x=2000            fin ===    x=datos.size()-100 ; x=datos.size()
+                    //for (int x = 44100; x<(datos)-44100; x++)
+                    datosMuestra.add(datos.get(x));
 
+                }
+                System.out.println("imeeeeeee" + datosMuestra);
+            }catch (Exception e){
+                e.printStackTrace();
             }
-            System.out.println("imeeeeeee" + datosMuestra);
         }
 
 
 
 
         private void writeAudioDataToFile() {
+            datos = new ArrayList();
             byte data[] = new byte[bufferSize];
             dataShort = new short[bufferSize/2];
             String filename = getTempFilename();
@@ -1824,6 +1885,8 @@ public class FonetogramaProActivity extends Activity {
         }
 
         public void nuevoEnsayo(){
+            datos = new ArrayList();
+
             String filepath = Environment.getExternalStorageDirectory().getPath();
             File file = new File(filepath, AUDIO_RECORDER_FOLDER);
             outputFile = file.getAbsolutePath() + "/" + "muestra1" + AUDIO_RECORDER_FILE_EXT_WAV;
@@ -1907,5 +1970,16 @@ public class FonetogramaProActivity extends Activity {
             Log.e("VALOR DE MAX", ""+max);
             return max;
         }
-    }
+
+        public void resetVariables (){
+            amplitudeMin = 0;
+            amplitudeMax = 0;
+            datosMuestraini = new ArrayList();
+            datosMuestra = new ArrayList();
+            datos = new ArrayList();
+        }
+
+
+
+}
 

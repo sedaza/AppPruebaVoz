@@ -22,6 +22,7 @@
     <string name="fonetograma_hablado">Fonetograma Hablado</string>
     <string name="frecuencia_tiempo">Frecuencia / Tiempo</string>
     <string name="intensidad_tiempo">Intensidad / Tiempo</string>
+    <string name="intensidad_frecuencia">Intensidad / Frecuencia</string>
     <string name="grabar_audio">GRABAR AUDIO</string>
     <string name="cargar_audio">CARGAR AUDIO</string>
 </resources>

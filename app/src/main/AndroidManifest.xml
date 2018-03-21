@@ -45,10 +45,12 @@
         <activity android:name=".MainResultadoGlissando" />
         <activity android:name=".RegistroActivity" />
         <activity android:name=".TipoFonetoActivity" />
-        <activity android:name=".FonetogramaProActivity" />
+        <activity android:name=".FonetogramaProActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".MainResultadosEkaiser" />
         <activity android:name=".OpcionesGlissandoActivity" />
-        <activity android:name=".CargarGlissandoActivity"></activity>
+        <activity android:name=".CargarGlissandoActivity" />
+        <activity android:name=".MainResultadosFonetograma"></activity>
     </application>
 
 </manifest>

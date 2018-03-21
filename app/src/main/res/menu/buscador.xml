@@ -7,6 +7,6 @@
         android:title="buscar"
         android:icon="@mipmap/ic_buscador"
         app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="android.support.v7.widget.SearchView"/>
+        app:actionViewClass="android.support.v7.widget.SearchView" />
 
 </menu>
